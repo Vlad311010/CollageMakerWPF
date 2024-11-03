@@ -55,6 +55,7 @@ namespace WpfTestApp.UserControls
         private int _verticalScale = 1;
         private double _imgScale = 1;
         private float _imgAngle = 0;
+        private Slider _scaleSlider;
 
         private void DropHandle(object sender, DragEventArgs e)
         {
@@ -139,17 +140,6 @@ namespace WpfTestApp.UserControls
         {
             imageRotateTransform.Angle = _imgAngle;
             _imgAngle += 90;
-            /*if (_imageBitmap == null)
-                return;
-
-            Uri fileUri = new Uri(_imageSource!);
-            Rotation currentRotation = _imageBitmap.Rotation;
-            _imageBitmap = new BitmapImage();
-            _imageBitmap.BeginInit();
-            _imageBitmap.UriSource = fileUri;
-            _imageBitmap.Rotation = currentRotation.Increment();
-            _imageBitmap.EndInit();
-            SetImageSource(_imageBitmap);*/
         }
 
         private void FlipHorizontal()
@@ -166,13 +156,6 @@ namespace WpfTestApp.UserControls
             var transform = new ScaleTransform(_horizontalScale, _verticalScale, 0, 0);
             TransformedBitmap tb = new TransformedBitmap(_imageBitmap, transform);
             SetImageSource(tb);
-
-            // preserved on image change. mb change implementation or restore values on image change
-            /*img.RenderTransformOrigin = new Point(0.5, 0.5);
-            ScaleTransform flipTrans = new ScaleTransform();
-            _verticalScale *= -1;
-            flipTrans.ScaleY = _verticalScale;
-            img.RenderTransform = flipTrans;*/
         }
 
         private void Fill()
@@ -189,15 +172,6 @@ namespace WpfTestApp.UserControls
             _imgScale = scale;
             imageScaleTransform.ScaleX = scale;
             imageScaleTransform.ScaleY = scale;
-            /*double startingWidth = img.ActualWidth;
-            double startingHeight = img.ActualHeight;
-            img.MaxWidth = imageCanvas.ActualWidth * scale; 
-            img.MaxHeight = imageCanvas.ActualHeight * scale;
-            _imgScale = scale;
-            // double differenceH = -startingWidth + (startingWidth * scale);
-            // double differenceV = -startingHeight + (startingHeight * scale);
-            // Canvas.SetLeft(img, Canvas.GetLeft(img) - differenceH - img.ActualWidth/4);
-            // Canvas.SetTop(img, Canvas.GetTop(img) - differenceV - img.ActualHeight/4);*/
         }
 
         private void SetImageSource(BitmapSource bitmap)
@@ -207,6 +181,8 @@ namespace WpfTestApp.UserControls
 
         public void CreateToolbarElements(EditorToolbar toolbar)
         {
+            toolbar.AddBtn("Center", CenterImage);
+            toolbar.AddBtn("Fill", Fill);
             toolbar.AddBtn("Rotate", Rotate);
             toolbar.AddBtn("Flip H", FlipHorizontal);
             toolbar.AddBtn("Flip V", FlipVertical);

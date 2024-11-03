@@ -5,16 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfTestApp.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="DropHandle" Keyboard.KeyDown="imageScroll_KeyDown">
-    <ScrollViewer x:Name="imageScroll" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-        <Image Stretch="Uniform" Name="img" Source="{Binding Source}"
-                MouseMove="imageScroll_MouseMove" 
-                MouseLeftButtonDown="imageScroll_MouseLeftButtonDown" 
-                MouseLeftButtonUp="imageScroll_MouseLeftButtonUp"
-                d:Width="200"
-                d:Height="350"
+             d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="DropHandle" Keyboard.KeyDown="imageScroll_KeyDown" Focusable="True">
+    <Canvas x:Name="imageCanvas" Background="Transparent" ClipToBounds="True" >
+        <Image Canvas.Left="0" Canvas.Top="0" Stretch="Uniform" Name="img" Source="{Binding Source}"  StretchDirection="Both"
+            MouseMove="imageScroll_MouseMove" 
+            MouseLeftButtonDown="imageScroll_MouseLeftButtonDown" 
+            MouseLeftButtonUp="imageScroll_MouseLeftButtonUp"
+            d:Width="200"
+            d:Height="350"
         >
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="imageScaleTransform" ScaleX="1" ScaleY="1" />
+                    <RotateTransform x:Name="imageRotateTransform" Angle="0"/>
+                </TransformGroup>
+            </Image.RenderTransform>
 
+            
         </Image>
-    </ScrollViewer>
+    </Canvas>
 </UserControl>

@@ -34,6 +34,7 @@
                         <Slider Width="200" VerticalAlignment="Center"/>
                     </uc:EditorToolbar.SliderTemplate>
                 </uc:EditorToolbar>
+                
                 <!--
                 <StackPanel Name="toolbar" Margin="0, 4, 0, 4" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
                     <Button Name="av" Padding="7, 0, 7, 0"  Margin="3, 0, 3, 0">1</Button>
@@ -42,7 +43,7 @@
                 </StackPanel>
                 -->
                 <Grid Name="canvasEditor" Grid.Row="2" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <uc:EditorGrid Rows="2" Columns="1" ToolbarRef="{Binding ElementName=editorToolbar}" />
+                    <uc:EditorGrid Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" />
                 </Grid>
             </Grid>
         </DockPanel>

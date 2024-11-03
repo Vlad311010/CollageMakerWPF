@@ -201,6 +201,7 @@ namespace WpfTestApp.UserControls
             current.BorderThickness = new Thickness(_borderSize);
             current.BorderBrush = Brushes.Orange;
             current.Margin = new Thickness(0);
+            current.Focus();
 
             _selectedContainer = current;
             UpdateToolbar();

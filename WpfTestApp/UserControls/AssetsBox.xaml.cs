@@ -25,6 +25,7 @@ namespace WpfTestApp.UserControls
         {
             // TODO: unsubscribe event on destroy?
             InitializeComponent();
+            CreateImageControl("D:\\_Images\\ToPhone\\__artoria_pendragon_and_saber_fate_and_1_more_drawn_by_yeruen__a5ce47afc6896bbf72cbf12b3f834991.jpg");
         }
 
         // button dependency property

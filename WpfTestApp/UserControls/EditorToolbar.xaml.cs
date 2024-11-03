@@ -55,15 +55,17 @@ namespace WpfTestApp.UserControls
             stackPanel.Children.Insert(0, newBtn);
         }
 
-        public void AddSlider(int min, int max)
+        public void AddSlider(double min, double max, double defaultValue, Action<double, double> slideValueChange)
         {
             Slider newSlider = SliderTemplate.Clone();
             newSlider.Minimum = min;
             newSlider.Maximum = max;
+            newSlider.Value = defaultValue;
+            newSlider.ValueChanged += (s, e) => slideValueChange?.Invoke(e.OldValue, e.NewValue);
             stackPanel.Children.Insert(0, newSlider);
         }
 
-        public void AddSlider(int min, int max, string label)
+        public void AddSlider(double min, double max, double defaultValue, string label, Action<double, double> slideValueChange)
         {
             DockPanel sliderDockPanel = new DockPanel();
             Label sliderLabel = new Label { Content = label };
@@ -75,6 +77,8 @@ namespace WpfTestApp.UserControls
             Slider newSlider = SliderTemplate.Clone();
             newSlider.Minimum = min;
             newSlider.Maximum = max;
+            newSlider.Value = defaultValue;
+            newSlider.ValueChanged += (s, e) => slideValueChange?.Invoke(e.OldValue, e.NewValue);
             sliderDockPanel.Children.Add(newSlider);
             
             stackPanel.Children.Insert(0, sliderDockPanel);

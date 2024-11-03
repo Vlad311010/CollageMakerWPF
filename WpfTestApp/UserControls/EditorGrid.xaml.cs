@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace WpfTestApp.UserControls
 {
@@ -57,7 +59,8 @@ namespace WpfTestApp.UserControls
             set => SetValue(ToolbarReferenceProperty, value);
         }
 
-
+        // TODO: ImageContainer replcae with UIElement
+        private ImageContainer[,] _containers;
         private ImageContainer? _selectedContainer = null;
         private Border _selectedContainerBorder;
         private double _borderSize = 3.5d;
@@ -107,7 +110,6 @@ namespace WpfTestApp.UserControls
                 {
                     RowDefinition splitterColumn = new RowDefinition { Height = new GridLength(splitterSize) };
                     grid.RowDefinitions.Add(splitterColumn);
-
                     // add horizontal splitters
                     GridSplitter gridSplitter = new GridSplitter();
                     gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -115,6 +117,7 @@ namespace WpfTestApp.UserControls
                     gridSplitter.Height = splitterSize;
                     Grid.SetRow(gridSplitter, y * 2 + 1);
                     Grid.SetColumnSpan(gridSplitter, Columns * 2 - 1);
+                    gridSplitter.DragDelta += (sender, e) => OnCellResize(sender, e, false);
                     grid.Children.Add(gridSplitter);
                 }
                     
@@ -137,24 +140,43 @@ namespace WpfTestApp.UserControls
                     gridSplitter.Width = splitterSize;
                     Grid.SetColumn(gridSplitter, x * 2 + 1);
                     Grid.SetRowSpan(gridSplitter, Rows * 2 - 1);
+                    gridSplitter.DragDelta += (sender, e) => OnCellResize(sender, e, true);
                     grid.Children.Add(gridSplitter);
                 }
             }
 
+            _containers = new ImageContainer[Columns, Rows];
             for (int y = 0; y < Rows; y++)
             {
                 for (int x = 0; x < Columns; x++)
                 {
                     // create and set grid position for ImageContainer
-                    UIElement imgContainer = CreateGridElement();
+                    ImageContainer imgContainer = CreateGridElement();
                     Grid.SetRow(imgContainer, y * 2);
                     Grid.SetColumn(imgContainer, x * 2);
                     grid.Children.Add(imgContainer);
+                    _containers[x, y] = imgContainer;
                 }
             }
         }
 
-        private UIElement CreateGridElement()
+        private void OnCellResize(object sender, DragDeltaEventArgs e, bool horizontal)
+        {
+            GridSplitter? splitter = sender as GridSplitter;
+            if (splitter == null)
+                return;
+
+            int cellC = (Grid.GetColumn(splitter) - 1) / 2;
+            int cellR = (Grid.GetRow(splitter) - 1) / 2;
+                
+            ImageContainer imgContainer = _containers[cellC, cellR];
+            if (horizontal)
+                imgContainer.OnContainerResized(e.HorizontalChange, 0);
+            else
+                imgContainer.OnContainerResized(0, e.VerticalChange);
+        }
+
+        private ImageContainer CreateGridElement()
         {
             // Border elementBorder = new Border { Name="border", BorderThickness = new Thickness(5), BorderBrush = Brushes.Black };
             ImageContainer imgContainer = new ImageContainer();
@@ -166,6 +188,7 @@ namespace WpfTestApp.UserControls
             return imgContainer;
             
         }
+
 
         private void OnGridElementLeftClick(object sender, MouseButtonEventArgs e)
         {

@@ -88,6 +88,12 @@ namespace WpfTestApp.UserControls
             Canvas.SetTop(img, (imageCanvas.ActualHeight - img.ActualHeight) / 2);
         }
 
+        public void OnContainerResized(double hOffset, double vOffset)
+        {
+            Canvas.SetLeft(img, Canvas.GetLeft(img) + hOffset / 2);
+            Canvas.SetTop(img, Canvas.GetTop(img) + vOffset / 2);
+        }
+
         // move to distinct usercontrol?
         #region MouseScroll
         private void imageScroll_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

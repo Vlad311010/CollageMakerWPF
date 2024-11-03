@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="DropHandle" Keyboard.KeyDown="imageScroll_KeyDown" Focusable="True">
     <Canvas x:Name="imageCanvas" Background="Transparent" ClipToBounds="True" >
-        <Image Canvas.Left="0" Canvas.Top="0" Stretch="Uniform" Name="img" Source="{Binding Source}"  StretchDirection="Both"
+        <Image Canvas.Left="0" Canvas.Top="0" Stretch="Uniform" Name="img" Source="{Binding Source}" StretchDirection="Both"
             MouseMove="imageScroll_MouseMove" 
             MouseLeftButtonDown="imageScroll_MouseLeftButtonDown" 
             MouseLeftButtonUp="imageScroll_MouseLeftButtonUp"
@@ -20,8 +20,6 @@
                     <RotateTransform x:Name="imageRotateTransform" Angle="0"/>
                 </TransformGroup>
             </Image.RenderTransform>
-
-            
         </Image>
     </Canvas>
 </UserControl>

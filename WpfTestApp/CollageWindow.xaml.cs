@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using WpfTestApp.UserControls;
 
 namespace WpfTestApp
@@ -32,7 +33,47 @@ namespace WpfTestApp
             // editorGrid.Resize();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SaveCollage();
+        }
+
+        private void SaveCollage()
+        {
+            // UIElement target = canvasEditor;
+            UIElement target = editorGrid;
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
+            double dpi = 96d;
 
 
+            int width = (int)(bounds.Width);
+            int height = (int)(bounds.Height);
+            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, dpi, dpi, System.Windows.Media.PixelFormats.Default);
+
+            DrawingVisual dv = new DrawingVisual();
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                VisualBrush vb = new VisualBrush(target);
+                dc.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
+                // dc.DrawRectangle(vb, new Pen(new SolidColorBrush(Colors.Red), 15), new Rect(new Point(), bounds.Size));
+            }
+
+            rtb.Render(dv);
+
+            PngBitmapEncoder png = new PngBitmapEncoder();
+
+            png.Frames.Add(BitmapFrame.Create(rtb));
+
+            string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Collages\\a.png";
+            using (Stream stm = File.Create(file))
+            {
+                png.Save(stm);
+            }
+            MessageBox.Show("Saved");
+
+
+        }
+
+        
     }
 }

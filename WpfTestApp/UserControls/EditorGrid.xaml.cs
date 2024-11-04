@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfTestApp.UserControls
 {
@@ -29,7 +32,7 @@ namespace WpfTestApp.UserControls
             InitializeComponent();
             Loaded += AssetsBox_Loaded;
         }
-
+        
         private void AssetsBox_Loaded(object sender, RoutedEventArgs e)
         {
             // Check if TargetImage is correctly set after the UserControl is fully loaded
@@ -115,6 +118,7 @@ namespace WpfTestApp.UserControls
                     gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
                     gridSplitter.VerticalAlignment = VerticalAlignment.Center;
                     gridSplitter.Height = splitterSize;
+                    // gridSplitter.Background = new SolidColorBrush(Colors.Transparent);
                     Grid.SetRow(gridSplitter, y * 2 + 1);
                     Grid.SetColumnSpan(gridSplitter, Columns * 2 - 1);
                     gridSplitter.DragDelta += (sender, e) => OnCellResize(sender, e, false);

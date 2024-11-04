@@ -10,7 +10,7 @@
     <Grid>
         <DockPanel>
             <WrapPanel>
-                <Button Padding="120, 0, 120, 0" Margin="10">Select folder</Button>
+                <Button Padding="120, 0, 120, 0" Margin="10" Click="Button_Click">Select folder</Button>
             </WrapPanel>
             <Grid Margin="0, 0, 10, 5">
                 <Grid.RowDefinitions>
@@ -49,7 +49,7 @@
                         Width="1278" Height="640"
                         Width="639" Height="320"
                         -->
-                        <uc:EditorGrid x:Name="editorGrid" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
+                        <uc:EditorGrid x:Name="editorGrid" Background="White" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
                     </Viewbox>
                 </Grid>
             </Grid>

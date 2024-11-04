@@ -182,6 +182,7 @@ namespace WpfTestApp.UserControls
             ImageContainer imgContainer = new ImageContainer();
             imgContainer.PreviewMouseLeftButtonDown += OnGridElementLeftClick;
             imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
+            // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
             imgContainer.AllowDrop = true;
             imgContainer.Margin = new Thickness(_borderSize);
             // elementBorder.Child = imgContainer;

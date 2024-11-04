@@ -10,7 +10,7 @@
     <Grid>
         <DockPanel>
             <WrapPanel>
-                <Button Padding="80, 0, 80, 0" Margin="10">Select folder</Button>
+                <Button Padding="120, 0, 120, 0" Margin="10">Select folder</Button>
             </WrapPanel>
             <Grid Margin="0, 0, 10, 5">
                 <Grid.RowDefinitions>
@@ -43,7 +43,14 @@
                 </StackPanel>
                 -->
                 <Grid Name="canvasEditor" Grid.Row="2" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <uc:EditorGrid Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" />
+                    <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <!--TODO: Width, Height depend on collage size option
+                        Width="2556" Height="1280"
+                        Width="1278" Height="640"
+                        Width="639" Height="320"
+                        -->
+                        <uc:EditorGrid x:Name="editorGrid" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
+                    </Viewbox>
                 </Grid>
             </Grid>
         </DockPanel>

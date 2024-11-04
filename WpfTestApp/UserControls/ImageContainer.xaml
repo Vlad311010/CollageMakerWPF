@@ -6,20 +6,49 @@
              xmlns:local="clr-namespace:WpfTestApp.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="DropHandle" Keyboard.KeyDown="imageScroll_KeyDown" Focusable="True">
-    <Canvas x:Name="imageCanvas" Background="Transparent" ClipToBounds="True" >
-        <Image Canvas.Left="0" Canvas.Top="0" Stretch="Uniform" Name="img" Source="{Binding Source}" StretchDirection="Both"
-            MouseMove="imageScroll_MouseMove" 
-            MouseLeftButtonDown="imageScroll_MouseLeftButtonDown" 
-            MouseLeftButtonUp="imageScroll_MouseLeftButtonUp"
-            d:Width="200"
-            d:Height="350"
-        >
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform x:Name="imageScaleTransform" ScaleX="1" ScaleY="1" />
-                    <RotateTransform x:Name="imageRotateTransform" Angle="0"/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
+ 
+            <!--<Canvas.OpacityMask>
+                <ImageBrush ImageSource="C:\Users\Vlad\Desktop\MASKS\11441885.png" Stretch="Uniform"/>
+            </Canvas.OpacityMask>
+    
+            <Rectangle Fill="Red" Width="{Binding Path=Width, ElementName=imageCanvas}" Height="{Binding Path=Height, ElementName=imageCanvas}">
+    
+            </Rectangle>
+        <DockPanel.OpacityMask>
+            <ImageBrush x:Name="opacityMask" ImageSource="C:\Users\Vlad\Desktop\MASKS\11441885.png" Stretch="Uniform"/>
+        </DockPanel.OpacityMask>
+            D:\_Images\ToPhone\__artoria_pendragon_and_saber_fate_and_1_more_drawn_by_yeruen__a5ce47afc6896bbf72cbf12b3f834991.jpg
+            C:\Users\Vlad\Desktop\MASKS\11441885.png
+        
+    <Image  x:Name="maskImage"  Source="C:\Users\Vlad\Desktop\MASKS\11441885.png" Stretch="Uniform"/>
+            -->
+    <Canvas x:Name="mainCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" Background="Transparent" >
+        <Canvas.OpacityMask>
+            <ImageBrush x:Name="opacityMask"
+                        Stretch="Uniform" 
+                        Viewport="75,-150,600,600" 
+                        ViewportUnits="Absolute"
+                        TileMode="None"/>
+        </Canvas.OpacityMask>
+        
+        <Canvas x:Name="imageCanvas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="False">
+
+            
+            <Image Canvas.Left="0" Canvas.Top="0" Stretch="Uniform" Name="img"
+                    MouseMove="imageScroll_MouseMove" 
+                    MouseLeftButtonDown="imageScroll_MouseLeftButtonDown" 
+                    MouseLeftButtonUp="imageScroll_MouseLeftButtonUp"
+                    d:Width="200"
+                    d:Height="350"
+            >
+                <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="imageScaleTransform" ScaleX="1" ScaleY="1" />
+                            <RotateTransform x:Name="imageRotateTransform" Angle="0"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+
+            </Image>
+        </Canvas>
     </Canvas>
 </UserControl>

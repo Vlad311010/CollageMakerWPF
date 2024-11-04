@@ -25,7 +25,15 @@ namespace WpfTestApp.UserControls
         public ImageContainer()
         {
             InitializeComponent();
+            Loaded += ImageContainer_Loaded;
             img.RenderTransformOrigin = new Point(0.5, 0.5);
+            
+        }
+
+        private void ImageContainer_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (MaskSource == null)
+                mainCanvas.OpacityMask = null;
         }
 
         public string? Source
@@ -43,10 +51,27 @@ namespace WpfTestApp.UserControls
             }
         }
 
-        // public ScrollViewer ScrollViewer => imageScroll;
+        public string? MaskSource
+        {
+            get
+            {
+                return _maskSource;
+            }
+            set
+            {
+                _maskSource = value;
+                if (opacityMask == null)
+                    return;
+
+                Uri fileUri = new Uri(_maskSource!);
+                opacityMask.ImageSource = new BitmapImage(fileUri);
+            }
+        }
+
         public Image Image => img;
 
         private string? _imageSource;
+        private string? _maskSource;
         private BitmapImage? _imageBitmap;
         private Point _lastMousePos;
 
@@ -64,11 +89,18 @@ namespace WpfTestApp.UserControls
                 return;
 
             Source = filePath;
+            /*imageCanvas.Width = outerCanvas.ActualWidth;
+            imageCanvas.Height = outerCanvas.ActualHeight;
+            imageCanvas.UpdateLayout();
             if (img.Height < img.Width)
                 img.MaxWidth = imageCanvas.ActualWidth;
             else
-                img.MaxHeight = imageCanvas.ActualHeight;
+                img.MaxHeight = imageCanvas.ActualHeight;*/
             ResetImageTransform();
+
+            /*Uri fileUri = new Uri("C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png"!);
+            BitmapImage mask = new BitmapImage(fileUri);
+            outerCanvas.OpacityMask = new ImageBrush(mask);*/
         }
 
         private void ResetImageTransform()
@@ -84,8 +116,8 @@ namespace WpfTestApp.UserControls
             // recalculate ActualWidth and ActualHeight 
             img.UpdateLayout();
 
-            Canvas.SetLeft(img, (imageCanvas.ActualWidth - img.ActualWidth) / 2);
-            Canvas.SetTop(img, (imageCanvas.ActualHeight - img.ActualHeight) / 2);
+            Canvas.SetLeft(img, (mainCanvas.ActualWidth - img.ActualWidth) / 2);
+            Canvas.SetTop(img, (mainCanvas.ActualHeight - img.ActualHeight) / 2);
         }
 
         public void OnContainerResized(double hOffset, double vOffset)
@@ -166,8 +198,8 @@ namespace WpfTestApp.UserControls
 
         private void Fill()
         {
-            img.MaxWidth = imageCanvas.ActualWidth;
-            img.MaxHeight = imageCanvas.MaxHeight;
+            img.MaxWidth = mainCanvas.ActualWidth;
+            img.MaxHeight = mainCanvas.MaxHeight;
             ResizeImg(1);
             CenterImage();
         }

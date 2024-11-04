@@ -23,25 +23,5 @@ namespace WpfTestApp
             InitializeComponent();
         }
 
-        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Images|*.png;*.jpg;*.jpeg;";
-            openFileDialog.Multiselect = true;
-            if (openFileDialog.ShowDialog() == true)
-            {
-                lbFiles.Items.Clear();
-                lbFiles.BorderThickness = new Thickness(2);
-                foreach (string fileName in openFileDialog.FileNames)
-                {
-                    lbFiles.Items.Add(fileName);
-                }
-            }
-            else
-            {
-                lbFiles.Items.Clear();
-                lbFiles.BorderThickness = new Thickness(0);
-            }
-        }
     }
 }

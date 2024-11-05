@@ -14,11 +14,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfTestApp.UserControls
 {
@@ -163,6 +158,17 @@ namespace WpfTestApp.UserControls
                 }
             }
         }
+        
+        private ImageContainer CreateGridElement()
+        {
+            ImageContainer imgContainer = new ImageContainer();
+            imgContainer.PreviewMouseLeftButtonDown += OnGridElementLeftClick;
+            imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
+            // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
+            imgContainer.AllowDrop = true;
+            imgContainer.Margin = new Thickness(_borderSize);
+            return imgContainer;
+        }
 
         private void OnCellResize(object sender, DragDeltaEventArgs e, bool horizontal)
         {
@@ -180,19 +186,6 @@ namespace WpfTestApp.UserControls
                 imgContainer.OnContainerResized(0, e.VerticalChange);
         }
 
-        private ImageContainer CreateGridElement()
-        {
-            // Border elementBorder = new Border { Name="border", BorderThickness = new Thickness(5), BorderBrush = Brushes.Black };
-            ImageContainer imgContainer = new ImageContainer();
-            imgContainer.PreviewMouseLeftButtonDown += OnGridElementLeftClick;
-            imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
-            // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
-            imgContainer.AllowDrop = true;
-            imgContainer.Margin = new Thickness(_borderSize);
-            // elementBorder.Child = imgContainer;
-            return imgContainer;
-            
-        }
 
 
         private void OnGridElementLeftClick(object sender, MouseButtonEventArgs e)
@@ -245,6 +238,12 @@ namespace WpfTestApp.UserControls
                 return;
 
             _selectedContainer.CreateToolbarElements(ToolbarRef);
+        }
+
+        public void Resize(int width, int height)
+        {
+            this.Width = width;
+            this.Height = height;
         }
 
 

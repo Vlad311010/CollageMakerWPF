@@ -9,9 +9,44 @@
         Title="CollageWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
     <Grid>
         <DockPanel>
-            <WrapPanel>
-                <Button Padding="120, 0, 120, 0" Margin="10" Click="Button_Click">Select folder</Button>
-            </WrapPanel>
+            <DockPanel Margin="5" Width="240" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+                    <Button Click="Button_SaveCollage">Select folder</Button>
+                </StackPanel>
+                <Grid Margin="0, 0, 0, 5" Background="AliceBlue">
+                    <TabControl Name="tabsControl">
+                        <TabItem Header="Size">
+                            <!--on tab open set text box value to actual collage size -->
+                            <Grid VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold" Width="170">Enter collage size:</Label>
+                                <Label Grid.Row="1" Grid.Column="0" FontWeight="Bold">Width:</Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Name="tbCollageWidthInput"
+                                         HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">1000</TextBox>
+                                <Label Grid.Row="2" Grid.Column="0" FontWeight="Bold">Height:</Label>
+                                <TextBox Grid.Row="2" Grid.Column="1" Name="tbCollageHeightInput" 
+                                        HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">1000</TextBox>
+                                <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply" Margin="5" Click="Button_ResizeCollage"/>
+                            </Grid>
+
+                        </TabItem>
+                        <TabItem Header="Template">
+                            <Label Content="Content goes here..." />
+                        </TabItem>
+                    </TabControl>
+
+                </Grid>
+            </DockPanel>
             <Grid Margin="0, 0, 10, 5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120" />

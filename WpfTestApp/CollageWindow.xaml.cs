@@ -27,35 +27,58 @@ namespace WpfTestApp
         private double _editorWindowWidth;
         private double _editorWindowHeight;
 
-        public void ResizeEditorWindow(double width, double height)
+
+        private void Button_ResizeCollage(object sender, RoutedEventArgs e)
         {
-            // set editor size.
-            // editorGrid.Resize();
+            int width;
+            int height;
+            bool isWidthParsed = int.TryParse(tbCollageWidthInput.Text, out width);
+            bool isHeightParsed = int.TryParse(tbCollageHeightInput.Text, out height);
+            if (!(isWidthParsed && IsValidWindowSizeValue(width)) || !(isHeightParsed && IsValidWindowSizeValue(height)))
+            {
+                MessageBox.Show($"Invalid collage size: {width}x{height}");
+                return;
+            }
+            
+            ResizeCollage(width, height);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private bool IsValidWindowSizeValue(int value)
+        {
+            return value > 0 && value < 6000;
+        }
+
+        private void Button_SaveCollage(object sender, RoutedEventArgs e)
         {
             SaveCollage();
+        }
+        public void ResizeCollage(int width, int height)
+        {
+            // set editor size.
+            editorGrid.Resize(width, height);
         }
 
         private void SaveCollage()
         {
-            // UIElement target = canvasEditor;
             UIElement target = editorGrid;
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
-            double dpi = 96d;
+            const double dpi = 96d;
+
+            double borderThickness = 0;
+            Color borderColor = Colors.White;
+            Pen borderPen = new Pen(new SolidColorBrush(borderColor), borderThickness);
 
 
             int width = (int)(bounds.Width);
             int height = (int)(bounds.Height);
-            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, dpi, dpi, System.Windows.Media.PixelFormats.Default);
+            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Default);
 
             DrawingVisual dv = new DrawingVisual();
             using (DrawingContext dc = dv.RenderOpen())
             {
                 VisualBrush vb = new VisualBrush(target);
-                dc.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
-                // dc.DrawRectangle(vb, new Pen(new SolidColorBrush(Colors.Red), 15), new Rect(new Point(), bounds.Size));
+                // dc.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
+                dc.DrawRectangle(vb, borderPen, new Rect(new Point(), bounds.Size));
             }
 
             rtb.Render(dv);
@@ -64,6 +87,7 @@ namespace WpfTestApp
 
             png.Frames.Add(BitmapFrame.Create(rtb));
 
+            // TODO: show saving dialog
             string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Collages\\a.png";
             using (Stream stm = File.Create(file))
             {
@@ -74,6 +98,5 @@ namespace WpfTestApp
 
         }
 
-        
     }
 }

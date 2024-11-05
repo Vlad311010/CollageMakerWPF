@@ -14,46 +14,30 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace WpfTestApp.UserControls
 {
     /// <summary>
     /// Interaction logic for EditorGrid.xaml
     /// </summary>
-    public partial class EditorGrid : UserControl, INotifyPropertyChanged
+    public partial class EditorGrid : UserControl
     {
         public EditorGrid()
         {
             InitializeComponent();
-            Loaded += AssetsBox_Loaded;
+            Loaded += OnLoad;
             editorGrid.LostFocus += EditorGrid_LostFocus;
         }
 
         private void EditorGrid_LostFocus(object sender, RoutedEventArgs e)
         {
-            Deselect();
+            Deselect(false);
         }
 
-        private void AssetsBox_Loaded(object sender, RoutedEventArgs e)
+        private void OnLoad(object sender, RoutedEventArgs e)
         {
-            // Check if TargetImage is correctly set after the UserControl is fully loaded
-            /*if (ToolbarReferenceProperty != null)
-            {
-                MessageBox.Show("TargetImage is set!");
-                // Now you can manipulate TargetImage as needed
-            }
-            else
-            {
-                MessageBox.Show("TargetImage is still null.");
-            }*/
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null!)
-        {
-            // TODO: refactor to use onload event
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            CreateGrid();
+            UpgradeGrid();
         }
 
         public static readonly DependencyProperty ToolbarReferenceProperty = DependencyProperty.Register("ToolbarRef", typeof(EditorToolbar), typeof(EditorGrid), new PropertyMetadata(null));
@@ -68,34 +52,18 @@ namespace WpfTestApp.UserControls
         private ImageContainer? _selectedContainer = null;
         private Border _selectedContainerBorder;
         private double _borderSize = 3.5d;
+        private double _splitterSize = 5;
 
         private int _columns;
         private int _rows;
-        public int Rows
-        {
-            get => _rows;
-            set
-            {
-                _rows = value;
-                OnPropertyChanged();
-            }
-        }
-        public int Columns
-        {
-            get => _columns;
-            set
-            {
-                _columns = value;
-                OnPropertyChanged();
-            }
-        }
+        public int Rows { get => _rows; set => _rows = value; }
+        public int Columns { get => _columns; set => _columns = value; }
 
-        private void CreateGrid()
+        private void UpgradeGrid()
         {
             if (Columns == 0 || Rows == 0) 
                 return;
 
-            const double splitterSize = 5;
 
             Grid grid = editorGrid;
             grid.ShowGridLines = false;
@@ -112,13 +80,13 @@ namespace WpfTestApp.UserControls
                 grid.RowDefinitions.Add(row);
                 if (y < Rows - 1)
                 {
-                    RowDefinition splitterColumn = new RowDefinition { Height = new GridLength(splitterSize) };
+                    RowDefinition splitterColumn = new RowDefinition { Height = new GridLength(_splitterSize) };
                     grid.RowDefinitions.Add(splitterColumn);
                     // add horizontal splitters
                     GridSplitter gridSplitter = new GridSplitter();
                     gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
                     gridSplitter.VerticalAlignment = VerticalAlignment.Center;
-                    gridSplitter.Height = splitterSize;
+                    gridSplitter.Height = _splitterSize;
                     // gridSplitter.Background = new SolidColorBrush(Colors.Transparent);
                     Grid.SetRow(gridSplitter, y * 2 + 1);
                     Grid.SetColumnSpan(gridSplitter, Columns * 2 - 1);
@@ -135,14 +103,14 @@ namespace WpfTestApp.UserControls
                 grid.ColumnDefinitions.Add(column);
                 if (x < Columns - 1)
                 {
-                    ColumnDefinition splitterColumn = new ColumnDefinition { Width = new GridLength(splitterSize) };
+                    ColumnDefinition splitterColumn = new ColumnDefinition { Width = new GridLength(_splitterSize) };
                     grid.ColumnDefinitions.Add(splitterColumn);
 
                     // add vertical splitters
                     GridSplitter gridSplitter = new GridSplitter();
                     gridSplitter.HorizontalAlignment = HorizontalAlignment.Center;
                     gridSplitter.VerticalAlignment = VerticalAlignment.Stretch;
-                    gridSplitter.Width = splitterSize;
+                    gridSplitter.Width = _splitterSize;
                     Grid.SetColumn(gridSplitter, x * 2 + 1);
                     Grid.SetRowSpan(gridSplitter, Rows * 2 - 1);
                     gridSplitter.DragDelta += (sender, e) => OnCellResize(sender, e, true);
@@ -150,20 +118,41 @@ namespace WpfTestApp.UserControls
                 }
             }
 
+
+            ImageContainer[,] previousContainers = _containers;
             _containers = new ImageContainer[Columns, Rows];
             for (int y = 0; y < Rows; y++)
             {
                 for (int x = 0; x < Columns; x++)
                 {
-                    // create and set grid position for ImageContainer
-                    ImageContainer imgContainer = CreateGridElement();
-                    Grid.SetRow(imgContainer, y * 2);
-                    Grid.SetColumn(imgContainer, x * 2);
+                    ImageContainer imgContainer;
+                    // try to reuse existing container
+                    if (!TryGetContainer(previousContainers, x, y, out imgContainer)) 
+                    {
+                        // create and set grid position for ImageContainer
+                        imgContainer = CreateGridElement();
+                        Grid.SetRow(imgContainer, y * 2);
+                        Grid.SetColumn(imgContainer, x * 2);
+                    }
+
                     grid.Children.Add(imgContainer);
                     _containers[x, y] = imgContainer;
                 }
             }
         }
+
+        private bool TryGetContainer(ImageContainer[,] source, int column, int row, out ImageContainer container)
+        {
+            if (source != null && column >= 0 && column < source.GetLength(0) && row >= 0 && row < source.GetLength(1))
+            {
+                container = source[column, row];
+                return true;
+            }
+            
+            container = null!;
+            return false;
+        }
+
         
         private ImageContainer CreateGridElement()
         {
@@ -210,7 +199,7 @@ namespace WpfTestApp.UserControls
             ChangeSelectedElement(_selectedContainer, newSelected);
         }
 
-        private void Deselect()
+        private void Deselect(bool updateToolbar=true)
         {
             if (_selectedContainer != null)
             {
@@ -219,7 +208,8 @@ namespace WpfTestApp.UserControls
                 _selectedContainer = null;
             }
 
-            UpdateToolbar();
+            if (updateToolbar)
+                UpdateToolbar();
         }
 
         private void ChangeSelectedElement(ImageContainer? prev, ImageContainer current) 
@@ -250,6 +240,15 @@ namespace WpfTestApp.UserControls
         {
             this.Width = width;
             this.Height = height;
+        }
+
+        public void ResizeGrid(int columns, int rows)
+        {
+            // TODO: unity _columns, _rows into one property?
+            // current implementation leads to two calls of UpgradeGrid().
+            _columns = columns;
+            _rows = rows;
+            UpgradeGrid();
         }
 
 

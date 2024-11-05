@@ -55,7 +55,12 @@ namespace WpfTestApp
 
         private void Button_ResizeGrid(object sender, RoutedEventArgs e)
         {
-
+            int columns = 0;
+            int rows = 0;
+            bool isColumnsParsed = int.TryParse(tbCollageGridColumns.Text, out columns);
+            bool isRowsParsed = int.TryParse(tbCollageGridRows.Text, out rows);
+            if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1) // check if column and row >= 1
+                editor.ResizeGrid(columns, rows);
         }
 
         public void ResizeCollage(int width, int height)

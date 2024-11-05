@@ -13,29 +13,69 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfTestApp.Interfaces;
 
 namespace WpfTestApp.UserControls
 {
     /// <summary>
     /// Interaction logic for AssetsBox.xaml
     /// </summary>
-    public partial class AssetsBox : UserControl
+    public partial class AssetsBox : UserControl, IToolbarFunctional
     {
         public AssetsBox()
         {
             // TODO: unsubscribe event on destroy?
             InitializeComponent();
             CreateImageControl("D:\\_Images\\ToPhone\\__artoria_pendragon_and_saber_fate_and_1_more_drawn_by_yeruen__a5ce47afc6896bbf72cbf12b3f834991.jpg");
+            lbImages.SelectionChanged += LbImages_SelectionChanged;
+            // lbImages.LostFocus += LbImages_LostFocus;
+            lbImages.GotFocus += LbImages_GotFocus;
+        }
+
+        private void LbImages_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ImageAsset? asset = lbImages.SelectedItem as ImageAsset;
+            if (asset == null || ToolbarRef == null)
+                return;
+
+            selectedAsset = asset;
+            ToolbarRef.Clear();
+            CreateToolbarElements(ToolbarRef);
+        }
+
+        private void LbImages_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // ToolbarRef?.Clear();
+            // lbImages.SelectedItem = null;
+        }
+
+        private void LbImages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ImageAsset? asset = e.AddedItems.Count > 0 ? e.AddedItems[0] as ImageAsset : null;
+            if (asset == null || ToolbarRef == null)
+                return;
+
+            selectedAsset = asset;
+            ToolbarRef.Clear();
+            CreateToolbarElements(ToolbarRef);
         }
 
         // button dependency property
         public static readonly DependencyProperty AddBtnProperty = DependencyProperty.Register("AddBtn", typeof(Button), typeof(AssetsBox), new PropertyMetadata(null, OnBtnChanged));
+        public static readonly DependencyProperty ToolbarReferenceProperty = DependencyProperty.Register("ToolbarRef", typeof(EditorToolbar), typeof(AssetsBox), new PropertyMetadata(null));
 
         public Button AddBtn
         {
             get => (Button)GetValue(AddBtnProperty);
             set => SetValue(AddBtnProperty, value);
         }
+        public EditorToolbar ToolbarRef
+        {
+            get => (EditorToolbar)GetValue(ToolbarReferenceProperty);
+            set => SetValue(ToolbarReferenceProperty, value);
+        }
+
+        private ImageAsset? selectedAsset;
 
         private static void OnBtnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -90,7 +130,24 @@ namespace WpfTestApp.UserControls
 
         private void RemoveAsset()
         {
+            int idx = lbImages.SelectedIndex;
             lbImages.Items.Remove(lbImages.SelectedItem);
+            if (lbImages.Items.Count > 1) // if there is other elements exect AddBtn in lbImages.
+            {
+                lbImages.SelectedItem = lbImages.Items[idx];
+                lbImages.Focus();
+            }
+            else
+            {
+                ToolbarRef?.Clear();
+            }
+        }
+        
+        private void RemoveAllAsset()
+        {
+            lbImages.Items.Clear();
+            lbImages.Items.Add(AddBtn);
+            ToolbarRef?.Clear();
         }
 
         private void ShowContextMenu(object sender, MouseButtonEventArgs e)
@@ -103,5 +160,11 @@ namespace WpfTestApp.UserControls
         }
 
         private void ClickRemove(object sender, RoutedEventArgs args) { RemoveAsset(); }
+
+        public void CreateToolbarElements(EditorToolbar toolbar)
+        {
+            toolbar.AddBtn("Remove All", RemoveAllAsset);
+            toolbar.AddBtn("Remove", RemoveAsset);
+        }
     }
 }

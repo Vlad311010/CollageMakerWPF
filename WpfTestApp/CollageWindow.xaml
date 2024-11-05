@@ -13,7 +13,7 @@
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
                     <Button Click="Button_SaveCollage">Select folder</Button>
                 </StackPanel>
-                <Grid Margin="0, 0, 0, 5" Background="AliceBlue">
+                <Grid Margin="0, 0, 0, 5">
                     <TabControl Name="tabsControl">
                         <TabItem Header="Size">
                             <!--on tab open set text box value to actual collage size -->
@@ -38,10 +38,29 @@
                                         HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">1000</TextBox>
                                 <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply" Margin="5" Click="Button_ResizeCollage"/>
                             </Grid>
-
                         </TabItem>
                         <TabItem Header="Template">
-                            <Label Content="Content goes here..." />
+                            <Grid VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold" Width="170">Enter grid size:</Label>
+                                <Label Grid.Row="1" Grid.Column="0" FontWeight="Bold">Colunms:</Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Name="tbCollageGridColumns"
+                                    HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">2</TextBox>
+                                <Label Grid.Row="2" Grid.Column="0" FontWeight="Bold">Rows:</Label>
+                                <TextBox Grid.Row="2" Grid.Column="1" Name="tbCollageGridRows" 
+                                    HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">2</TextBox>
+                                <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply" Margin="5" Click="Button_ResizeGrid"/>
+                            </Grid>
                         </TabItem>
                     </TabControl>
 
@@ -54,12 +73,12 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <uc:AssetsBox>
+
+                <uc:AssetsBox ToolbarRef="{Binding ElementName=editorToolbar}">
                     <uc:AssetsBox.AddBtn>
                         <Button Padding="18, 0, 18, 0" Content="Add"/>
                     </uc:AssetsBox.AddBtn>
                 </uc:AssetsBox>
-
 
                 <uc:EditorToolbar x:Name="editorToolbar" Margin="0, 4, 0, 4" Grid.Row="1">
                     <uc:EditorToolbar.BtnTemplate>
@@ -84,7 +103,7 @@
                         Width="1278" Height="640"
                         Width="639" Height="320"
                         -->
-                        <uc:EditorGrid x:Name="editorGrid" Background="White" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
+                        <uc:EditorGrid x:Name="editor" Background="White" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
                     </Viewbox>
                 </Grid>
             </Grid>

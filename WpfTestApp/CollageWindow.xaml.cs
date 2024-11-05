@@ -52,15 +52,21 @@ namespace WpfTestApp
         {
             SaveCollage();
         }
+
+        private void Button_ResizeGrid(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         public void ResizeCollage(int width, int height)
         {
             // set editor size.
-            editorGrid.Resize(width, height);
+            editor.Resize(width, height);
         }
 
         private void SaveCollage()
         {
-            UIElement target = editorGrid;
+            UIElement target = editor;
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
             const double dpi = 96d;
 

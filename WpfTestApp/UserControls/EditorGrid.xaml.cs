@@ -26,8 +26,14 @@ namespace WpfTestApp.UserControls
         {
             InitializeComponent();
             Loaded += AssetsBox_Loaded;
+            editorGrid.LostFocus += EditorGrid_LostFocus;
         }
-        
+
+        private void EditorGrid_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Deselect();
+        }
+
         private void AssetsBox_Loaded(object sender, RoutedEventArgs e)
         {
             // Check if TargetImage is correctly set after the UserControl is fully loaded

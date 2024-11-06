@@ -1,0 +1,9 @@
+﻿images: 3
+containers:
+- mask_source: "file.txt"
+  x: 0
+  y: 10
+- mask_source: "file2.txt"
+  x: 15
+  y: 10
+

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using WpfTestApp.UserControls;
+using WpfTestApp.Utils;
 
 namespace WpfTestApp
 {
@@ -22,6 +23,7 @@ namespace WpfTestApp
         public CollageWindow()
         {
             InitializeComponent();
+            YamlReader.Foo();
         }
 
         private double _editorWindowWidth;
@@ -61,6 +63,8 @@ namespace WpfTestApp
             bool isRowsParsed = int.TryParse(tbCollageGridRows.Text, out rows);
             if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1) // check if column and row >= 1
                 editor.ResizeGrid(columns, rows);
+            else
+                MessageBox.Show("Invalid parametes. Grid must have atleast one coulumn and row");
         }
 
         public void ResizeCollage(int width, int height)
@@ -88,25 +92,29 @@ namespace WpfTestApp
             using (DrawingContext dc = dv.RenderOpen())
             {
                 VisualBrush vb = new VisualBrush(target);
-                // dc.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
                 dc.DrawRectangle(vb, borderPen, new Rect(new Point(), bounds.Size));
             }
 
             rtb.Render(dv);
-
             PngBitmapEncoder png = new PngBitmapEncoder();
-
             png.Frames.Add(BitmapFrame.Create(rtb));
 
-            // TODO: show saving dialog
-            string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Collages\\a.png";
-            using (Stream stm = File.Create(file))
+            string defaultFolder = @".\Collages";
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = "MyCollage";
+            #if DEBUG
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            #else
+                saveFileDialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            #endif
+            saveFileDialog.Filter = "Images|*.png;*.jpg;*.jpeg;";
+            if (saveFileDialog.ShowDialog() == true) 
             {
-                png.Save(stm);
+                using (Stream stm = File.Create(saveFileDialog.FileName))
+                {
+                    png.Save(stm);
+                }
             }
-            MessageBox.Show("Saved");
-
-
         }
 
     }

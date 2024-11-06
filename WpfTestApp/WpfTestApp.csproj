@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Collages\" />
-    <Folder Include="Masks\" />
+    <Folder Include="Collages\" />  
+    <Resource Include="Masks\*" />  
   </ItemGroup>
 
   <ItemGroup>

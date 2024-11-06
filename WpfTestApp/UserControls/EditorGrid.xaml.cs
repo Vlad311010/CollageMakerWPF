@@ -47,7 +47,6 @@ namespace WpfTestApp.UserControls
             set => SetValue(ToolbarReferenceProperty, value);
         }
 
-        // TODO: ImageContainer replcae with UIElement
         private ImageContainer[,] _containers;
         private ImageContainer? _selectedContainer = null;
         private Border _selectedContainerBorder;
@@ -185,7 +184,6 @@ namespace WpfTestApp.UserControls
 
         private void OnGridElementLeftClick(object sender, MouseButtonEventArgs e)
         {
-            // TODO: capture mouse
             ImageContainer? newSelected = sender as ImageContainer;
             if (newSelected == null)
             {
@@ -244,8 +242,6 @@ namespace WpfTestApp.UserControls
 
         public void ResizeGrid(int columns, int rows)
         {
-            // TODO: unity _columns, _rows into one property?
-            // current implementation leads to two calls of UpgradeGrid().
             _columns = columns;
             _rows = rows;
             UpgradeGrid();

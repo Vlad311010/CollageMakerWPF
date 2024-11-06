@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfTestApp.Interfaces;
 using WpfTestApp.Utils;
+using YamlDotNet.Core;
 
 namespace WpfTestApp.UserControls
 {
@@ -60,10 +61,11 @@ namespace WpfTestApp.UserControls
             set
             {
                 _maskSource = value;
-                if (opacityMask == null)
+                if (opacityMask == null || _maskSource == null)
                     return;
 
-                Uri fileUri = new Uri(_maskSource!);
+                // Uri fileUri = new Uri(_maskSource!);
+                Uri fileUri = new Uri($"pack://application:,,,/Masks/{_maskSource!}");
                 opacityMask.ImageSource = new BitmapImage(fileUri);
             }
         }

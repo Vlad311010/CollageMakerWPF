@@ -16,7 +16,6 @@ namespace WpfTestApp.Utils
 
         public static void Foo()
         {
-
             string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Templates\\test.yaml";
             string yaml = File.ReadAllText(file);
 

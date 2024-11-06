@@ -23,7 +23,6 @@ namespace WpfTestApp
         public CollageWindow()
         {
             InitializeComponent();
-            YamlReader.Foo();
         }
 
         private double _editorWindowWidth;

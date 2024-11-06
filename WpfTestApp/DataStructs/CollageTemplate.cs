@@ -10,16 +10,20 @@ using System.IO;
 namespace WpfTestApp.DataStructs
 {
 
-    struct ContainerData
+    public struct ContainerData
     {
         public string MaskSource;
+        // percentage values
         public double Left;
         public double Top;
         public double Width;
         public double Height;
+        
+        public double MaskLeft;
+        public double MaskTop;
     }
 
-    internal class CollageTemplate
+    public class CollageTemplate
     {
         public int Images;
         public ContainerData[] Containers;

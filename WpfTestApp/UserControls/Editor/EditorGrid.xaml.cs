@@ -15,42 +15,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
+using WpfTestApp.DataStructs;
 
-namespace WpfTestApp.UserControls
+namespace WpfTestApp.UserControls.Editor
 {
     /// <summary>
     /// Interaction logic for EditorGrid.xaml
     /// </summary>
-    public partial class EditorGrid : UserControl
+    public partial class EditorGrid : EditorBase
     {
         public EditorGrid()
         {
             InitializeComponent();
-            Loaded += OnLoad;
-            editorGrid.LostFocus += EditorGrid_LostFocus;
+            _editorPanel = editorGrid;
+            Loaded += OnEditorLoad;
         }
 
-        private void EditorGrid_LostFocus(object sender, RoutedEventArgs e)
-        {
-            Deselect(false);
-        }
-
-        private void OnLoad(object sender, RoutedEventArgs e)
-        {
-            UpgradeGrid();
-        }
-
-        public static readonly DependencyProperty ToolbarReferenceProperty = DependencyProperty.Register("ToolbarRef", typeof(EditorToolbar), typeof(EditorGrid), new PropertyMetadata(null));
-        public EditorToolbar ToolbarRef
-        {
-            get => (EditorToolbar)GetValue(ToolbarReferenceProperty);
-            set => SetValue(ToolbarReferenceProperty, value);
-        }
 
         private ImageContainer[,] _containers;
-        private ImageContainer? _selectedContainer = null;
         private Border _selectedContainerBorder;
-        private double _borderSize = 3.5d;
         private double _splitterSize = 5;
 
         private int _columns;
@@ -58,7 +41,7 @@ namespace WpfTestApp.UserControls
         public int Rows { get => _rows; set => _rows = value; }
         public int Columns { get => _columns; set => _columns = value; }
 
-        private void UpgradeGrid()
+        protected override void UpdateEditor()
         {
             if (Columns == 0 || Rows == 0) 
                 return;
@@ -70,8 +53,8 @@ namespace WpfTestApp.UserControls
             grid.ColumnDefinitions.Clear();
             grid.RowDefinitions.Clear();
 
-            grid.SetBinding(WidthProperty, new Binding("ActualWidth") { Source = editorGridControl });
-            grid.SetBinding(HeightProperty, new Binding("ActualHeight") { Source = editorGridControl });
+            grid.SetBinding(WidthProperty, new Binding("ActualWidth") { Source = this });
+            grid.SetBinding(HeightProperty, new Binding("ActualHeight") { Source = this });
 
             for (int y = 0; y < Rows; y++)
             {
@@ -129,7 +112,7 @@ namespace WpfTestApp.UserControls
                     if (!TryGetContainer(previousContainers, x, y, out imgContainer)) 
                     {
                         // create and set grid position for ImageContainer
-                        imgContainer = CreateGridElement();
+                        imgContainer = CreateGridElement(new ContainerData());
                         Grid.SetRow(imgContainer, y * 2);
                         Grid.SetColumn(imgContainer, x * 2);
                     }
@@ -153,10 +136,10 @@ namespace WpfTestApp.UserControls
         }
 
         
-        private ImageContainer CreateGridElement()
+        protected override ImageContainer CreateGridElement(ContainerData containerData)
         {
             ImageContainer imgContainer = new ImageContainer();
-            imgContainer.PreviewMouseLeftButtonDown += OnGridElementLeftClick;
+            imgContainer.PreviewMouseLeftButtonDown += OnEditorElementLeftClick;
             imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
             // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
             imgContainer.AllowDrop = true;
@@ -182,69 +165,17 @@ namespace WpfTestApp.UserControls
 
 
 
-        private void OnGridElementLeftClick(object sender, MouseButtonEventArgs e)
-        {
-            ImageContainer? newSelected = sender as ImageContainer;
-            if (newSelected == null)
-            {
-                Deselect();
-                return;
-            }
-
-            var X = Grid.GetColumn(newSelected);
-            var Y = Grid.GetRow(newSelected);
-            
-            ChangeSelectedElement(_selectedContainer, newSelected);
-        }
-
-        private void Deselect(bool updateToolbar=true)
-        {
-            if (_selectedContainer != null)
-            {
-                _selectedContainer.BorderThickness = new Thickness(0);
-                _selectedContainer.Margin = new Thickness(_borderSize);
-                _selectedContainer = null;
-            }
-
-            if (updateToolbar)
-                UpdateToolbar();
-        }
-
-        private void ChangeSelectedElement(ImageContainer? prev, ImageContainer current) 
-        {
-            Deselect();
-            current.BorderThickness = new Thickness(_borderSize);
-            current.BorderBrush = Brushes.Orange;
-            current.Margin = new Thickness(0);
-            current.Focus();
-
-            _selectedContainer = current;
-            UpdateToolbar();
-        }
-
-        private void UpdateToolbar()
-        {
-            if (ToolbarRef == null)
-                return;
-
-            ToolbarRef.Clear();
-            if (_selectedContainer == null)
-                return;
-
-            _selectedContainer.CreateToolbarElements(ToolbarRef);
-        }
-
-        public void Resize(int width, int height)
+        public override void Resize(int width, int height)
         {
             this.Width = width;
             this.Height = height;
         }
 
-        public void ResizeGrid(int columns, int rows)
+        public override void ResizeGrid(int columns, int rows)
         {
             _columns = columns;
             _rows = rows;
-            UpgradeGrid();
+            UpdateEditor();
         }
 
 

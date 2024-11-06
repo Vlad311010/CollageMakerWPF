@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:WpfTestApp.UserControls"
+        xmlns:editor="clr-namespace:WpfTestApp.UserControls.Editor"
         xmlns:local="clr-namespace:WpfTestApp"
         mc:Ignorable="d"
         Title="CollageWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
@@ -100,10 +101,10 @@
                     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True">
                         <!--TODO: 
                         Width="1278" Height="640"
-                        <uc:EditorGrid x:Name="editor" Background="White" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1000" Height="1000"/>
+                        <editor:EditorCanvas x:Name="editor" Background="White" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
                         -->
                         <Border BorderBrush="LightGray" BorderThickness="1">
-                            <uc:EditorCanvas x:Name="editor" Background="White" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1000" Height="1000"/>
+                        <editor:EditorGrid x:Name="editor" Background="White" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1000" Height="1000"/>
                         </Border>
                     </Viewbox>
                 </Grid>

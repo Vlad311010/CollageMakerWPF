@@ -1,13 +1,13 @@
-﻿<UserControl x:Class="WpfTestApp.UserControls.EditorCanvas"
+﻿<editor:EditorBase x:Class="WpfTestApp.UserControls.Editor.EditorCanvas"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:editor="clr-namespace:WpfTestApp.UserControls.Editor"
              xmlns:local="clr-namespace:WpfTestApp.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Name="editorControl">
-    <Canvas Name="editorCanvas" PreviewMouseLeftButtonDown="OnCanvasElementLeftClick">
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Canvas Name="editorCanvas" PreviewMouseLeftButtonDown="OnEditorElementLeftClick">
             
     </Canvas>
-</UserControl>
+</editor:EditorBase>

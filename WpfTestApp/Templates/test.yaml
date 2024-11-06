@@ -3,12 +3,12 @@ containers:
 - mask_source: null
   left: 0
   top: 0
-  width: 500
-  height: 1000
+  width: 0.5
+  height: 1
 
 - mask_source: null
-  left: 500
+  left: 0.5
   top: 0
-  width: 500
-  height: 1000
+  width: 0.5
+  height: 1
 

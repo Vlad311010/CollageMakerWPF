@@ -1,9 +1,10 @@
-﻿images: 2
+﻿name: "||"
+images: 2
 containers:
 - mask_source: null
   left: 0
   top: 0
-  width: 0.5
+  width: 0.49
   height: 1
 
 - mask_source: null

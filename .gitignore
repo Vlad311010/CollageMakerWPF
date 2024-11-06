@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/WpfTestApp/WpfTestApp - Backup.csproj
+/WpfTestApp/WpfTestApp - Backup (2).csproj
+/WpfTestApp/WpfTestApp - Backup (1).csproj

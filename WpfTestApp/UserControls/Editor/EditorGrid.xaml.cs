@@ -143,7 +143,7 @@ namespace WpfTestApp.UserControls.Editor
             imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
             // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
             imgContainer.AllowDrop = true;
-            imgContainer.Margin = new Thickness(_borderSize);
+            imgContainer.Padding = new Thickness(_borderSize);
             return imgContainer;
         }
 
@@ -163,13 +163,6 @@ namespace WpfTestApp.UserControls.Editor
                 imgContainer.OnContainerResized(0, e.VerticalChange);
         }
 
-
-
-        public override void Resize(int width, int height)
-        {
-            this.Width = width;
-            this.Height = height;
-        }
 
         public override void ResizeGrid(int columns, int rows)
         {

@@ -10,10 +10,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using WpfTestApp.DataStructs;
 using WpfTestApp.UserControls;
+using WpfTestApp.UserControls.Editor;
 using WpfTestApp.Utils;
 
 namespace WpfTestApp
@@ -23,10 +26,27 @@ namespace WpfTestApp
         public CollageWindow()
         {
             InitializeComponent();
+            LoadTemplates();
+
+            tbCollageWidthInput.Text = AppParameters.Instance.EditorParameters.Width.ToString();
+            tbCollageHeightInput.Text = AppParameters.Instance.EditorParameters.Height.ToString();
+
+            // TODO: refact?
+            _editorCanvas = new EditorCanvas();
+            _editorCanvas.ToolbarRef = editorToolbar;
+            _editorCanvas.Background = new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor);
+
+            _editorGrid = new EditorGrid();
+            _editorGrid.ToolbarRef = editorToolbar;
+            _editorGrid.Background = new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor);
+            
+            SwitchEditor(_editorGrid);
         }
 
-        private double _editorWindowWidth;
-        private double _editorWindowHeight;
+        private CollageTemplate[] _templates;
+        private EditorCanvas _editorCanvas;
+        private EditorGrid _editorGrid;
+        private EditorBase _activeEditor;
 
 
         private void Button_ResizeCollage(object sender, RoutedEventArgs e)
@@ -40,7 +60,7 @@ namespace WpfTestApp
                 MessageBox.Show($"Invalid collage size: {width}x{height}");
                 return;
             }
-            
+
             ResizeCollage(width, height);
         }
 
@@ -61,26 +81,71 @@ namespace WpfTestApp
             bool isColumnsParsed = int.TryParse(tbCollageGridColumns.Text, out columns);
             bool isRowsParsed = int.TryParse(tbCollageGridRows.Text, out rows);
             if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1) // check if column and row >= 1
-                editor.ResizeGrid(columns, rows);
+            {
+                SwitchEditor(_editorGrid);
+                _activeEditor.ResizeGrid(columns, rows);
+            }
             else
                 MessageBox.Show("Invalid parametes. Grid must have atleast one coulumn and row");
         }
 
+        private void LoadTemplates()
+        {
+            string[] templateFiles = Directory.GetFiles(AppParameters.TEMPLATES_FOLDER);
+
+            _templates = new CollageTemplate[templateFiles.Length];
+            for (int i = 0; i < templateFiles.Length; i++)
+                _templates[i] = CollageTemplate.ReadFromYaml(templateFiles[i]);
+
+            List<Tuple<string, int>> templatesWithActions = _templates
+                .Select((template, idx) => new Tuple<string, int>(template.Name, idx))
+                .ToList();
+
+            icTemplatesGrid.ItemsSource = templatesWithActions;
+        }
+
+
         public void ResizeCollage(int width, int height)
         {
             // set editor size.
-            editor.Resize(width, height);
+            AppParameters.Instance.EditorParameters.Resize(width, height);
+        }
+        
+        private void OnTemplateClick(object sender, RoutedEventArgs e)
+        {
+            var tagValue = ((Button)sender).Tag;
+            if (tagValue == null)
+                return;
+
+            SwitchEditor(_editorCanvas);
+            int templateIdx = int.Parse(tagValue.ToString()!);
+            ChangeCollageTemplate(_templates[templateIdx]);
+        }
+
+        private void ChangeCollageTemplate(CollageTemplate template)
+        {
+            AppParameters.Instance.EditorParameters.SelectedTemplate = template;
+        }
+
+        private void SwitchEditor(EditorBase editor)
+        {
+            vbEditor.Child = null;
+            _activeEditor = editor;
+            vbEditor.Child = _activeEditor;
         }
 
         private void SaveCollage()
         {
-            UIElement target = editor;
+            UIElement target = _activeEditor;
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
             const double dpi = 96d;
 
-            double borderThickness = 0;
-            Color borderColor = Colors.White;
-            Pen borderPen = new Pen(new SolidColorBrush(borderColor), borderThickness);
+            
+            Pen borderPen = new Pen
+            (
+                new SolidColorBrush(AppParameters.Instance.EditorParameters.BorderColor), 
+                AppParameters.Instance.EditorParameters.BorderThickness
+            );
 
 
             int width = (int)(bounds.Width);
@@ -98,7 +163,6 @@ namespace WpfTestApp
             PngBitmapEncoder png = new PngBitmapEncoder();
             png.Frames.Add(BitmapFrame.Create(rtb));
 
-            string defaultFolder = @".\Collages";
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.FileName = "MyCollage";
             #if DEBUG

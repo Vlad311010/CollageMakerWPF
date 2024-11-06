@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using WpfTestApp.DataStructs;
+using WpfTestApp.Utils;
 
 namespace WpfTestApp.UserControls.Editor
 {
@@ -21,8 +22,11 @@ namespace WpfTestApp.UserControls.Editor
 
         protected void OnEditorLoad(object sender, RoutedEventArgs e)
         {
+            AppParameters.Instance.EditorParameters.OnEditorResize += Resize;
             _editorPanel.LostFocus += OnFocusLost;
             UpdateEditor();
+            
+            Resize(AppParameters.Instance.EditorParameters.Width, AppParameters.Instance.EditorParameters.Height);
         }
 
         private void OnFocusLost(object sender, RoutedEventArgs e)
@@ -34,10 +38,10 @@ namespace WpfTestApp.UserControls.Editor
 
         protected abstract ImageContainer CreateGridElement(ContainerData containerData);
 
-        public virtual void Resize(int width, int height)
+        protected virtual void Resize(int width, int height)
         {
-            this.Width = width;
-            this.Height = height;
+            this.Width = AppParameters.Instance.EditorParameters.Width;
+            this.Height = AppParameters.Instance.EditorParameters.Height;
         }
 
         public abstract void ResizeGrid(int columns, int rows);
@@ -59,7 +63,8 @@ namespace WpfTestApp.UserControls.Editor
             if (_selectedContainer != null)
             {
                 _selectedContainer.BorderThickness = new Thickness(0);
-                _selectedContainer.Margin = new Thickness(_borderSize);
+                // _selectedContainer.Margin = new Thickness(_borderSize);
+                _selectedContainer.Padding = new Thickness(_borderSize);
                 _selectedContainer = null;
             }
 
@@ -72,7 +77,7 @@ namespace WpfTestApp.UserControls.Editor
             Deselect();
             current.BorderThickness = new Thickness(_borderSize);
             current.BorderBrush = Brushes.Orange;
-            current.Margin = new Thickness(0);
+            current.Padding = new Thickness(0);
             current.Focus();
 
             _selectedContainer = current;

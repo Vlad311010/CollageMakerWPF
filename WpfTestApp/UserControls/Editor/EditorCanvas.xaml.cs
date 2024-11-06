@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WpfTestApp.DataStructs;
+using WpfTestApp.Utils;
 
 namespace WpfTestApp.UserControls.Editor
 {
@@ -24,9 +25,10 @@ namespace WpfTestApp.UserControls.Editor
         public EditorCanvas()
         {
             InitializeComponent();
-            string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Templates\\test.yaml";
+            // string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Templates\\test2.yaml";
             _editorPanel = editorCanvas;
-            _selectedTemplate = CollageTemplate.ReadFromYaml(file);
+            // _selectedTemplate = CollageTemplate.ReadFromYaml(file);
+            AppParameters.Instance.EditorParameters.OnTemplateChange += OnTemplateChange;
             Loaded += OnEditorLoad;
         }
 
@@ -37,7 +39,7 @@ namespace WpfTestApp.UserControls.Editor
             UpdateCanvas(template);
         }*/
 
-        protected CollageTemplate _selectedTemplate;
+        // protected CollageTemplate? _selectedTemplate;
         private ImageContainer[]? _containers;
 
         protected override void UpdateEditor()
@@ -46,16 +48,16 @@ namespace WpfTestApp.UserControls.Editor
             _editorPanel.SetBinding(WidthProperty, new Binding("ActualWidth") { Source = this });
             _editorPanel.SetBinding(HeightProperty, new Binding("ActualHeight") { Source = this });
 
-            if (_selectedTemplate == null)
+            if (AppParameters.Instance.EditorParameters.SelectedTemplate == null)
             {
                 _containers = null!;
                 return;
             }
 
-            _containers = new ImageContainer[_selectedTemplate.Containers.Length];
-            for (int i = 0; i < _selectedTemplate.Containers.Length; i++)
+            _containers = new ImageContainer[AppParameters.Instance.EditorParameters.SelectedTemplate.Containers.Length];
+            for (int i = 0; i < AppParameters.Instance.EditorParameters.SelectedTemplate.Containers.Length; i++)
             {
-                ImageContainer imgContainer = CreateGridElement(_selectedTemplate.Containers[i]);
+                ImageContainer imgContainer = CreateGridElement(AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
                 editorCanvas.Children.Add(imgContainer);
                 _containers[i] = imgContainer;
             }
@@ -68,23 +70,45 @@ namespace WpfTestApp.UserControls.Editor
             imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
             imgContainer.MaskSource = containerData.MaskSource;
             imgContainer.AllowDrop = true;
-            imgContainer.Margin = new Thickness(_borderSize);
+            imgContainer.Padding = new Thickness(_borderSize);
 
-            Canvas.SetLeft(imgContainer, containerData.Left * editorCanvas.ActualWidth);
-            Canvas.SetTop(imgContainer, containerData.Top * editorCanvas.ActualHeight);
-            imgContainer.Width = containerData.Width * editorCanvas.ActualWidth;
-            imgContainer.Height = containerData.Height * editorCanvas.ActualHeight;
+            SetContrainerTransform(imgContainer, containerData);
+
             return imgContainer;
         }
 
-        public override void Resize(int width, int height)
+        private void SetContrainerTransform(ImageContainer container, ContainerData containerData)
         {
-            this.Width = width;
-            this.Height = height;
+            editorCanvas.UpdateLayout();
+            Canvas.SetLeft(container, containerData.Left * editorCanvas.ActualWidth);
+            Canvas.SetTop(container, containerData.Top * editorCanvas.ActualHeight);
+            container.Width = containerData.Width * editorCanvas.ActualWidth;
+            container.Height = containerData.Height * editorCanvas.ActualHeight;
+        }
+
+        protected override void Resize(int width, int height)
+        {
+            this.Width = AppParameters.Instance.EditorParameters.Width;
+            this.Height = AppParameters.Instance.EditorParameters.Height;
+
+            if (_containers == null)
+                return;
+
+            for (int i = 0; i < AppParameters.Instance.EditorParameters.SelectedTemplate!.Containers.Length; i++)
+            {
+                SetContrainerTransform(_containers[i], AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
+            }
         }
 
         public override void ResizeGrid(int columns, int rows)
         {
         }
+
+        private void OnTemplateChange(CollageTemplate? template)
+        {
+            // _selectedTemplate = template;
+            UpdateEditor();
+        }
+
     }
 }

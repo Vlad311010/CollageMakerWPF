@@ -13,20 +13,21 @@ namespace WpfTestApp.DataStructs
     public struct ContainerData
     {
         public string MaskSource;
+        
         // percentage values
         public double Left;
         public double Top;
         public double Width;
         public double Height;
-        
         public double MaskLeft;
         public double MaskTop;
-    }
+}
 
     public class CollageTemplate
     {
-        public int Images;
-        public ContainerData[] Containers;
+        public string Name { get; set; }
+        public int Images { get; set; }
+        public ContainerData[] Containers { get; set; }
 
         public static CollageTemplate ReadFromYaml(string yamlFilePath)
         {

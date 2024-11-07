@@ -19,6 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Masks\splat\splat_lb.png" />
+    <None Remove="Masks\splat\splat_lt.png" />
+    <None Remove="Masks\splat\splat_rb.png" />
+    <None Remove="Masks\splat\splat_rt.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.1" />
     <PackageReference Include="YamlDotNet" Version="16.1.3" />
   </ItemGroup>
 

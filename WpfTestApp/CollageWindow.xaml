@@ -6,6 +6,7 @@
         xmlns:uc="clr-namespace:WpfTestApp.UserControls"
         xmlns:editor="clr-namespace:WpfTestApp.UserControls.Editor"
         xmlns:local="clr-namespace:WpfTestApp"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="CollageWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
     <Grid>
@@ -84,6 +85,21 @@
                                 <TextBox Grid.Row="2" Grid.Column="1" Name="tbCollageHeightInput"
                                         HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                                 <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply" Margin="5" Click="Button_ResizeCollage"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Parameters">
+                            <Grid VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" Text="Background:"/>
+                                <xctk:ColorPicker Grid.Row="0" Grid.Column="1"  ShowTabHeaders="False" Height="30" VerticalAlignment="Top" UsingAlphaChannel="True" ColorMode="ColorCanvas" SelectedColorChanged="backroundColorChanged"  Name="clrPickerBackground" ></xctk:ColorPicker>
                             </Grid>
                         </TabItem>
                     </TabControl>

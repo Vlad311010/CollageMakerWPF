@@ -24,6 +24,8 @@ namespace WpfTestApp.UserControls.Editor
         {
             AppParameters.Instance.EditorParameters.OnEditorResize += Resize;
             _editorPanel.LostFocus += OnFocusLost;
+            _editorPanel.Background = new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor);
+            AppParameters.Instance.EditorParameters.OnBackgroundColorChange += OnBackgroundColorChange;
             UpdateEditor();
             
             Resize(AppParameters.Instance.EditorParameters.Width, AppParameters.Instance.EditorParameters.Height);
@@ -33,6 +35,12 @@ namespace WpfTestApp.UserControls.Editor
         {
             Deselect(false);
         }
+
+        protected virtual void OnBackgroundColorChange(Color newColor)
+        {
+            _editorPanel.Background = new SolidColorBrush(newColor);
+        }
+
 
         protected abstract void UpdateEditor();
 

@@ -66,6 +66,7 @@ namespace WpfTestApp.UserControls.Editor
                     grid.RowDefinitions.Add(splitterColumn);
                     // add horizontal splitters
                     GridSplitter gridSplitter = new GridSplitter();
+                    gridSplitter.Background = new SolidColorBrush(Colors.Transparent);
                     gridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
                     gridSplitter.VerticalAlignment = VerticalAlignment.Center;
                     gridSplitter.Height = _splitterSize;
@@ -90,6 +91,7 @@ namespace WpfTestApp.UserControls.Editor
 
                     // add vertical splitters
                     GridSplitter gridSplitter = new GridSplitter();
+                    gridSplitter.Background = new SolidColorBrush(Colors.Transparent);
                     gridSplitter.HorizontalAlignment = HorizontalAlignment.Center;
                     gridSplitter.VerticalAlignment = VerticalAlignment.Stretch;
                     gridSplitter.Width = _splitterSize;
@@ -162,7 +164,6 @@ namespace WpfTestApp.UserControls.Editor
             else
                 imgContainer.OnContainerResized(0, e.VerticalChange);
         }
-
 
         public override void ResizeGrid(int columns, int rows)
         {

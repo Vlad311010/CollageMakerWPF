@@ -8,8 +8,11 @@ namespace WpfTestApp.DataStructs
         public int Width { get; private set; }
         public int Height { get; private set; }
         public double BorderThickness { get; set; }
-        public Color BackgroundColor { get; set; }
-        public Color BorderColor { get; set; }
+        public Color BackgroundColor
+        {
+            get => _backgroundColor;
+            set { _backgroundColor = value; OnBackgroundColorChange?.Invoke(_backgroundColor); }
+        }
         public CollageTemplate? SelectedTemplate 
         { 
             get => _selectedTemplate; 
@@ -18,14 +21,15 @@ namespace WpfTestApp.DataStructs
 
         public event Action<int, int> OnEditorResize;
         public event Action<CollageTemplate?> OnTemplateChange;
+        public event Action<Color> OnBackgroundColorChange;
 
         private CollageTemplate? _selectedTemplate;
+        private Color _backgroundColor = Colors.White;
 
         public EditorParameters()
         {
-            BorderThickness = 2;
+            BorderThickness = 20;
             BackgroundColor = Colors.White;
-            BorderColor = Colors.White;
             SelectedTemplate = null;
             Resize(1278, 640);
         }

@@ -129,9 +129,12 @@ namespace WpfTestApp
 
         private void SwitchEditor(EditorBase editor)
         {
-            vbEditor.Child = null;
-            _activeEditor = editor;
-            vbEditor.Child = _activeEditor;
+            if (_activeEditor == null || _activeEditor.GetType() != editor.GetType())
+            {
+                vbEditor.Child = null;
+                _activeEditor = editor;
+                vbEditor.Child = _activeEditor;
+            }
         }
 
         private void SaveCollage()
@@ -140,10 +143,10 @@ namespace WpfTestApp
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
             const double dpi = 96d;
 
-            
+
             Pen borderPen = new Pen
             (
-                new SolidColorBrush(AppParameters.Instance.EditorParameters.BorderColor), 
+                new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor),
                 AppParameters.Instance.EditorParameters.BorderThickness
             );
 
@@ -180,5 +183,10 @@ namespace WpfTestApp
             }
         }
 
+        private void backroundColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (e.NewValue != null)
+                AppParameters.Instance.EditorParameters.BackgroundColor = (Color)e.NewValue;
+        }
     }
 }

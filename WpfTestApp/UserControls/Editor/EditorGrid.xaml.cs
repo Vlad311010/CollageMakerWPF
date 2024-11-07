@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
 using WpfTestApp.DataStructs;
+using static System.Net.WebRequestMethods;
 
 namespace WpfTestApp.UserControls.Editor
 {
@@ -34,6 +35,8 @@ namespace WpfTestApp.UserControls.Editor
 
         private ImageContainer[,] _containers;
         private Border _selectedContainerBorder;
+        private bool _newGridSize = true;
+        
         private double _splitterSize = 5;
 
         private int _columns;
@@ -64,6 +67,7 @@ namespace WpfTestApp.UserControls.Editor
                 {
                     RowDefinition splitterColumn = new RowDefinition { Height = new GridLength(_splitterSize) };
                     grid.RowDefinitions.Add(splitterColumn);
+
                     // add horizontal splitters
                     GridSplitter gridSplitter = new GridSplitter();
                     gridSplitter.Background = new SolidColorBrush(Colors.Transparent);
@@ -123,6 +127,20 @@ namespace WpfTestApp.UserControls.Editor
                     _containers[x, y] = imgContainer;
                 }
             }
+
+            if (_newGridSize)
+            {
+                _newGridSize = false;
+                UpdateLayout();
+                // resize and center images
+                for (int y = 0; y < Rows; y++)
+                {
+                    for (int x = 0; x < Columns; x++)
+                    {
+                        _containers[x, y].Fill();
+                    }
+                }
+            }
         }
 
         private bool TryGetContainer(ImageContainer[,] source, int column, int row, out ImageContainer container)
@@ -142,12 +160,12 @@ namespace WpfTestApp.UserControls.Editor
         {
             ImageContainer imgContainer = new ImageContainer();
             imgContainer.PreviewMouseLeftButtonDown += OnEditorElementLeftClick;
-            imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
             // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
             imgContainer.AllowDrop = true;
             imgContainer.Padding = new Thickness(_borderSize);
             return imgContainer;
         }
+
 
         private void OnCellResize(object sender, DragDeltaEventArgs e, bool horizontal)
         {
@@ -165,10 +183,19 @@ namespace WpfTestApp.UserControls.Editor
                 imgContainer.OnContainerResized(0, e.VerticalChange);
         }
 
+        /*protected override void ChangeSelectedElement(ImageContainer? prev, ImageContainer current)
+        {
+            base.ChangeSelectedElement(prev, current);
+            int containerCol = Grid.GetColumn(current);
+            int containerRow = Grid.GetRow(current);
+            HighlightSplitter(containerCol, containerRow);
+        }*/
+
         public override void ResizeGrid(int columns, int rows)
         {
             _columns = columns;
             _rows = rows;
+            _newGridSize = true;
             UpdateEditor();
         }
 

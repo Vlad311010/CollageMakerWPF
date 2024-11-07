@@ -80,7 +80,7 @@ namespace WpfTestApp.UserControls.Editor
                 UpdateToolbar();
         }
 
-        private void ChangeSelectedElement(ImageContainer? prev, ImageContainer current)
+        protected virtual void ChangeSelectedElement(ImageContainer? prev, ImageContainer current)
         {
             Deselect();
             current.BorderThickness = new Thickness(_borderSize);

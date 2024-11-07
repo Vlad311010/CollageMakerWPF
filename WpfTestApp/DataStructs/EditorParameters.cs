@@ -18,6 +18,7 @@ namespace WpfTestApp.DataStructs
             get => _selectedTemplate; 
             set { _selectedTemplate = value; OnTemplateChange?.Invoke(_selectedTemplate); } 
         }
+        public Uri DefaultImageUri { get; private set; }
 
         public event Action<int, int> OnEditorResize;
         public event Action<CollageTemplate?> OnTemplateChange;
@@ -31,6 +32,7 @@ namespace WpfTestApp.DataStructs
             BorderThickness = 20;
             BackgroundColor = Colors.White;
             SelectedTemplate = null;
+            DefaultImageUri = new Uri("pack://application:,,,/Resources/imgPlaceholder.png", UriKind.Absolute);
             Resize(1278, 640);
         }
 

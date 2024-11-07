@@ -6,26 +6,39 @@
         xmlns:local="clr-namespace:WpfTestApp"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
-    <Canvas x:Name="MainCanvas" Width="500" Height="400" Background="LightGray"  ClipToBounds="True">
-        <!-- Mask Image: Defines the visible area through its alpha channel -->
-        <Canvas.OpacityMask>
-            <ImageBrush x:Name="opacityMask" ImageSource="C:\Users\Vlad\Desktop\MASKS\11441885.png" />
-        </Canvas.OpacityMask>
-        <Canvas Canvas.Left="0" x:Name="Can" MaxWidth="500" MaxHeight="400" Width="500" Height="400" ClipToBounds="True" >
+    <Grid DockPanel.Dock="Top" Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="0, 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="2" Grid.Row="0" Text="1, 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="0, 1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="2" Grid.Row="2" Text="1, 1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="4" Grid.Row="0" Text="2, 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="4" Grid.Row="2" Text="2, 1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
+        <!--
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="3"  HorizontalAlignment="Center"  VerticalAlignment="Stretch" Width="5"/>
+        <GridSplitter Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="5"/>
+        -->
 
-            <!-- 
-            
-            <Image Source="C:\Users\Vlad\Desktop\MASKS\11441885.png"
-                Width="300" Height="300" Canvas.Left="0" Canvas.Top="0" Stretch="Uniform"/>
-            -->
+        <GridSplitter Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Stretch" Height="70" Width="5" Background="Aquamarine"/>
+        <GridSplitter Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Stretch" Height="70" Width="5" Background="Aquamarine"/>
+        <GridSplitter Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Stretch" Height="70" Width="5" Background="Aquamarine"/>
+        <GridSplitter Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Stretch" Height="70" Width="5" Background="Aquamarine"/>
 
-            <Image Source="D:\_Images\ToPhone\__artoria_pendragon_and_saber_fate_and_1_more_drawn_by_yeruen__a5ce47afc6896bbf72cbf12b3f834991.jpg"
-                Width="300" Height="300" Canvas.Left="300" Canvas.Top="100"/>
-            <!-- OpacityMask uses ImageBrush based on the alpha channel of MaskImage -->
-
-        </Canvas>
-    </Canvas>
+        <GridSplitter Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="5" Width="70" Background="Aquamarine"/>
+        <GridSplitter Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="5" Width="70" Background="Aquamarine"/>
+        <GridSplitter Grid.Column="4" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="5" Width="70" Background="Aquamarine"/>
+    </Grid>
 </Window>

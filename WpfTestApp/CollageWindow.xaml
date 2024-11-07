@@ -39,7 +39,7 @@
                                     <TextBox Grid.Row="1" Grid.Column="1" Name="tbCollageGridColumns"
                                         HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">2</TextBox>
                                     <Label Grid.Row="2" Grid.Column="0" FontWeight="Bold">Rows:</Label>
-                                    <TextBox Grid.Row="2" Grid.Column="1" Name="tbCollageGridRows" 
+                                    <TextBox Grid.Row="2" Grid.Column="1" Name="tbCollageGridRows"
                                         HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center">2</TextBox>
                                     <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply" Margin="5" Click="Button_ResizeGrid"/>
                                 </Grid>

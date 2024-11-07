@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfTestApp.Interfaces;
 using WpfTestApp.Utils;
-using YamlDotNet.Core;
 
 namespace WpfTestApp.UserControls
 {
@@ -28,7 +27,9 @@ namespace WpfTestApp.UserControls
             InitializeComponent();
             Loaded += ImageContainer_Loaded;
             img.RenderTransformOrigin = new Point(0.5, 0.5);
-            
+         
+            // set default image
+            SetImageSource(new BitmapImage(AppParameters.Instance.EditorParameters.DefaultImageUri));
         }
 
         private void ImageContainer_Loaded(object sender, RoutedEventArgs e)
@@ -46,6 +47,12 @@ namespace WpfTestApp.UserControls
             set
             {
                 _imageSource = value;
+                if (_imageSource == null)
+                {
+                    SetImageSource(null!);
+                    return;
+                }
+                
                 Uri fileUri = new Uri(_imageSource!);
                 _imageBitmap = new BitmapImage(fileUri);
                 SetImageSource(_imageBitmap);
@@ -198,12 +205,17 @@ namespace WpfTestApp.UserControls
             SetImageSource(tb);
         }
 
-        private void Fill()
+        public void Fill()
         {
             img.MaxWidth = mainCanvas.ActualWidth;
             img.MaxHeight = mainCanvas.MaxHeight;
             ResizeImg(1);
             CenterImage();
+        }
+
+        private void Clear()
+        {
+            Source = null;
         }
 
         private void ResizeImg(double scale)
@@ -227,6 +239,7 @@ namespace WpfTestApp.UserControls
             toolbar.AddBtn("Flip H", FlipHorizontal);
             toolbar.AddBtn("Flip V", FlipVertical);
             toolbar.AddSlider(0.1d, 8d, _imgScale, "Zoom:", (oldValue, newValue) => ResizeImg(newValue));
+            toolbar.AddBtn("Clear", Clear);
         }
     }
 }

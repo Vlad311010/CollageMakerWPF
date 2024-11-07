@@ -23,11 +23,18 @@
     <None Remove="Masks\splat\splat_lt.png" />
     <None Remove="Masks\splat\splat_rb.png" />
     <None Remove="Masks\splat\splat_rt.png" />
+    <None Remove="Resources\imgPlaceholder.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.1" />
     <PackageReference Include="YamlDotNet" Version="16.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\imgPlaceholder.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

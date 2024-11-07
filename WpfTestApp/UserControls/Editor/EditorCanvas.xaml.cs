@@ -25,23 +25,13 @@ namespace WpfTestApp.UserControls.Editor
         public EditorCanvas()
         {
             InitializeComponent();
-            // string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Templates\\test2.yaml";
             _editorPanel = editorCanvas;
-            // _selectedTemplate = CollageTemplate.ReadFromYaml(file);
             AppParameters.Instance.EditorParameters.OnTemplateChange += OnTemplateChange;
             Loaded += OnEditorLoad;
         }
 
-        /*private void EditorCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            string file = "C:\\Users\\Vlad\\Desktop\\testApp\\WpfTestApp\\WpfTestApp\\Templates\\test.yaml";
-            CollageTemplate template = CollageTemplate.ReadFromYaml(file);
-            UpdateCanvas(template);
-        }*/
-
-        // protected CollageTemplate? _selectedTemplate;
         private ImageContainer[]? _containers;
-
+        
         protected override void UpdateEditor()
         {
             _editorPanel.Children.Clear();
@@ -58,22 +48,24 @@ namespace WpfTestApp.UserControls.Editor
             for (int i = 0; i < AppParameters.Instance.EditorParameters.SelectedTemplate.Containers.Length; i++)
             {
                 ImageContainer imgContainer = CreateGridElement(AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
-                editorCanvas.Children.Add(imgContainer);
+                _editorPanel.Children.Add(imgContainer);
                 _containers[i] = imgContainer;
             }
+
+            foreach (ImageContainer imgContainer in _containers)
+                imgContainer.Fill();
         }
+
 
         protected override ImageContainer CreateGridElement(ContainerData containerData)
         {
             ImageContainer imgContainer = new ImageContainer();
             imgContainer.PreviewMouseLeftButtonDown += OnEditorElementLeftClick;
-            imgContainer.Source = "D:\\_Images\\Fox\\Fox-HD-Wallpaper.jpg";
             imgContainer.MaskSource = containerData.MaskSource;
             imgContainer.AllowDrop = true;
             imgContainer.Padding = new Thickness(_borderSize);
 
             SetContrainerTransform(imgContainer, containerData);
-
             return imgContainer;
         }
 
@@ -98,6 +90,9 @@ namespace WpfTestApp.UserControls.Editor
             {
                 SetContrainerTransform(_containers[i], AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
             }
+
+            foreach (ImageContainer imgContainer in _containers)
+                imgContainer.Fill();
         }
 
         public override void ResizeGrid(int columns, int rows)
@@ -106,7 +101,6 @@ namespace WpfTestApp.UserControls.Editor
 
         private void OnTemplateChange(CollageTemplate? template)
         {
-            // _selectedTemplate = template;
             UpdateEditor();
         }
 

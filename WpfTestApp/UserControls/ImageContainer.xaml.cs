@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,15 +74,25 @@ namespace WpfTestApp.UserControls
 
                 // Uri fileUri = new Uri(_maskSource!);
                 Uri fileUri = new Uri($"pack://application:,,,/Masks/{_maskSource!}");
-                opacityMask.ImageSource = new BitmapImage(fileUri);
+                try
+                {
+                    _maskBitmap = new BitmapImage(fileUri);
+                    opacityMask.ImageSource = _maskBitmap;
+                }
+                catch (IOException e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
         }
 
         public Image Image => img;
+        public BitmapImage? Mask => _maskBitmap;
 
         private string? _imageSource;
         private string? _maskSource;
         private BitmapImage? _imageBitmap;
+        private BitmapImage? _maskBitmap;
         private Point _lastMousePos;
 
         // transform properties

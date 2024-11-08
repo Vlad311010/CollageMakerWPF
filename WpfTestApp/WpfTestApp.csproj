@@ -20,11 +20,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Masks\splat2\splat_lb.png" />
+    <None Remove="Masks\splat2\splat_lt.png" />
+    <None Remove="Masks\splat2\splat_rb.png" />
+    <None Remove="Masks\splat2\splat_rt.png" />
     <None Remove="Masks\splat\splat_lb.png" />
     <None Remove="Masks\splat\splat_lt.png" />
     <None Remove="Masks\splat\splat_rb.png" />
     <None Remove="Masks\splat\splat_rt.png" />
     <None Remove="Resources\imgPlaceholder.png" />
+    <None Remove="Templates\splat.yaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,10 +44,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Templates\test.yaml">
+    <Content Update="Templates\splat.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Templates\test2.yaml">
+    <Content Update="Templates\double.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Templates\3blocks.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -23,6 +23,7 @@ namespace WpfTestApp.UserControls.Editor
         protected void OnEditorLoad(object sender, RoutedEventArgs e)
         {
             AppParameters.Instance.EditorParameters.OnEditorResize += Resize;
+            this.Background.Opacity = 0;
             _editorPanel.LostFocus += OnFocusLost;
             _editorPanel.Background = new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor);
             AppParameters.Instance.EditorParameters.OnBackgroundColorChange += OnBackgroundColorChange;

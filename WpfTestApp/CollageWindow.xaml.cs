@@ -47,6 +47,7 @@ namespace WpfTestApp
         private EditorCanvas _editorCanvas;
         private EditorGrid _editorGrid;
         private EditorBase _activeEditor;
+        private const int MAX_GRID_CELLS = 100;
 
 
         private void Button_ResizeCollage(object sender, RoutedEventArgs e)
@@ -66,7 +67,7 @@ namespace WpfTestApp
 
         private bool IsValidWindowSizeValue(int value)
         {
-            return value > 0 && value < 6000;
+            return value > 0 && value <= 6000;
         }
 
         private void Button_SaveCollage(object sender, RoutedEventArgs e)
@@ -80,13 +81,13 @@ namespace WpfTestApp
             int rows = 0;
             bool isColumnsParsed = int.TryParse(tbCollageGridColumns.Text, out columns);
             bool isRowsParsed = int.TryParse(tbCollageGridRows.Text, out rows);
-            if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1) // check if column and row >= 1
+            if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1 && columns * rows <= MAX_GRID_CELLS) // check if column and row >= 1
             {
                 SwitchEditor(_editorGrid);
                 _activeEditor.ResizeGrid(columns, rows);
             }
             else
-                MessageBox.Show("Invalid parametes. Grid must have atleast one coulumn and row");
+                MessageBox.Show($"Invalid parametes. Grid must have atleast one coulumn and row and contain less the {MAX_GRID_CELLS} cells");
         }
 
         private void LoadTemplates()
@@ -153,7 +154,7 @@ namespace WpfTestApp
 
             int width = (int)(bounds.Width);
             int height = (int)(bounds.Height);
-            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Default);
+            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
 
             DrawingVisual dv = new DrawingVisual();
             using (DrawingContext dc = dv.RenderOpen())

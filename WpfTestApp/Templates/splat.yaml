@@ -1,0 +1,47 @@
+﻿name: "splat"
+images: 3
+containers:
+
+# lt
+- mask_source: "splat2\\splat_lt.png"
+  left: 0.0
+  top: 0.0
+  width: 0.5
+  height: 0.5
+  mask_left: 1
+  mask_top: 1
+  mask_width: 1
+  mask_height: 1
+
+# lb
+- mask_source: "splat2\\splat_lb.png"
+  left: 0.0
+  top: 0.5
+  width: 0.5
+  height: 0.5
+  mask_left: 1
+  mask_top: 0
+  mask_width: 1
+  mask_height: 1
+
+# rt
+- mask_source: "splat2\\splat_rt.png"
+  left: 0.5
+  top: 0.0
+  width: 0.5
+  height: 0.5
+  mask_left: 0
+  mask_top: 1
+  mask_width: 1
+  mask_height: 1
+
+# rb
+- mask_source: "splat2\\splat_rb.png"
+  left: 0.5
+  top: 0.5
+  width: 0.5
+  height: 0.5
+  mask_left: 0
+  mask_top: 0
+  mask_width: 1
+  mask_height: 1

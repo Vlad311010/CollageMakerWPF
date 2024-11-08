@@ -19,9 +19,12 @@ namespace WpfTestApp.DataStructs
         public double Top;
         public double Width;
         public double Height;
+
         public double MaskLeft;
         public double MaskTop;
-}
+        public double MaskWidth;
+        public double MaskHeight;
+    }
 
     public class CollageTemplate
     {

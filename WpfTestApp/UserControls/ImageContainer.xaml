@@ -7,27 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="DropHandle" Keyboard.KeyDown="imageScroll_KeyDown" Focusable="True">
  
-            <!--<Canvas.OpacityMask>
-                <ImageBrush ImageSource="C:\Users\Vlad\Desktop\MASKS\11441885.png" Stretch="Uniform"/>
-            </Canvas.OpacityMask>
-    
-            <Rectangle Fill="Red" Width="{Binding Path=Width, ElementName=imageCanvas}" Height="{Binding Path=Height, ElementName=imageCanvas}">
-    
-            </Rectangle>
-        <DockPanel.OpacityMask>
-            <ImageBrush x:Name="opacityMask" ImageSource="C:\Users\Vlad\Desktop\MASKS\11441885.png" Stretch="Uniform"/>
-        </DockPanel.OpacityMask>
-            D:\_Images\ToPhone\__artoria_pendragon_and_saber_fate_and_1_more_drawn_by_yeruen__a5ce47afc6896bbf72cbf12b3f834991.jpg
-            C:\Users\Vlad\Desktop\MASKS\11441885.png
-        
-    <Image  x:Name="maskImage"  Source="C:\Users\Vlad\Desktop\MASKS\11441885.png" Stretch="Uniform"/>
-            -->
     <Canvas x:Name="mainCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" Background="Transparent" >
         <Canvas.OpacityMask>
             <ImageBrush x:Name="opacityMask"
                         Stretch="Uniform" 
-                        Viewport="75,-150,600,600" 
+                        
+                        Viewbox="0, 0, 1, 1"
                         ViewportUnits="Absolute"
+                        ViewboxUnits="RelativeToBoundingBox"
                         TileMode="None"/>
         </Canvas.OpacityMask>
         

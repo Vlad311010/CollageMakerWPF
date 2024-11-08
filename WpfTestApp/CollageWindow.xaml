@@ -11,13 +11,13 @@
         Title="CollageWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
     <Grid>
         <DockPanel>
-            <DockPanel Margin="5" Width="240" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DockPanel Margin="5" Width="240" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
                     <Button Click="Button_SaveCollage">
                         <TextBlock FontWeight="Bold">Save Collage</TextBlock> 
                     </Button>
                 </StackPanel>
-                <Grid Margin="0, 0, 0, 5">
+                <Grid Margin="0, 0, 0, 5" >
                     <TabControl Name="tabsControl">
                         <TabItem Header="Template">
                             <DockPanel>
@@ -63,13 +63,15 @@
                                 </Grid>
                             </DockPanel>
                         </TabItem>
-                        <TabItem Header="Size">
-                            <!--on tab open set text box value to actual collage size -->
+                        <TabItem Header="Parameters">
                             <Grid VerticalAlignment="Top">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="20" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
@@ -85,28 +87,21 @@
                                 <TextBox Grid.Row="2" Grid.Column="1" Name="tbCollageHeightInput"
                                         HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                                 <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply" Margin="5" Click="Button_ResizeCollage"/>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Parameters">
-                            <Grid VerticalAlignment="Top">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" Text="Background:"/>
-                                <xctk:ColorPicker Grid.Row="0" Grid.Column="1"  ShowTabHeaders="False" Height="30" VerticalAlignment="Top" UsingAlphaChannel="True" ColorMode="ColorCanvas" SelectedColorChanged="backroundColorChanged"  Name="clrPickerBackground" ></xctk:ColorPicker>
+
+                                <Separator Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" Text="Background:"/>
+                                <xctk:ColorPicker Grid.Row="6" Grid.Column="1"  ShowTabHeaders="False" Height="30" VerticalAlignment="Top" UsingAlphaChannel="True" ColorMode="ColorCanvas" SelectedColorChanged="backroundColorChanged"  Name="clrPickerBackground" ></xctk:ColorPicker>
                             </Grid>
                         </TabItem>
                     </TabControl>
 
                 </Grid>
             </DockPanel>
-            <Grid Margin="0, 0, 10, 5" Background="LightGray">
+            <Grid Margin="0, 0, 10, 5">
+                <Grid.Background>
+                    <SolidColorBrush Opacity="1" Color="LightGray"/>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120" />
                     <RowDefinition Height="35" />
@@ -114,13 +109,13 @@
                 </Grid.RowDefinitions>
 
 
-                <uc:AssetsBox ToolbarRef="{Binding ElementName=editorToolbar}">
+                <uc:AssetsBox ToolbarRef="{Binding ElementName=editorToolbar}" >
                     <uc:AssetsBox.AddBtn>
                         <Button Padding="18, 0, 18, 0" Content="Add"/>
                     </uc:AssetsBox.AddBtn>
                 </uc:AssetsBox>
 
-                <uc:EditorToolbar x:Name="editorToolbar" Margin="0, 4, 0, 4" Grid.Row="1">
+                <uc:EditorToolbar x:Name="editorToolbar" Margin="0, 4, 0, 4" Grid.Row="1" >
                     <uc:EditorToolbar.BtnTemplate>
                         <Button Padding="7, 0, 7, 0"  Margin="3, 0, 3, 0">2</Button>
                     </uc:EditorToolbar.BtnTemplate>
@@ -130,7 +125,7 @@
                 </uc:EditorToolbar>
 
 
-                <Grid Name="canvasEditor" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5, 0, 5, 5">
+                <Grid Name="canvasEditor" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5, 0, 5, 5" >
                     <Viewbox Name="vbEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True">
                         <!-- 
                         Width="1278" Height="640"

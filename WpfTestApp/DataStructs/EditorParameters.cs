@@ -7,6 +7,7 @@ namespace WpfTestApp.DataStructs
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public double AspectRatio => Width / Height;
         public double BorderThickness { get; set; }
         public Color BackgroundColor
         {
@@ -33,7 +34,7 @@ namespace WpfTestApp.DataStructs
             BackgroundColor = Colors.White;
             SelectedTemplate = null;
             DefaultImageUri = new Uri("pack://application:,,,/Resources/imgPlaceholder.png", UriKind.Absolute);
-            Resize(1278, 640);
+            Resize(1000, 1000);
         }
 
         public void Resize(int width, int height)

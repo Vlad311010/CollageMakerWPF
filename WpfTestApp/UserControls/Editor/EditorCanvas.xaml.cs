@@ -86,87 +86,22 @@ namespace WpfTestApp.UserControls.Editor
 
         private void SetContainerMaskVieport(ImageContainer container, ContainerData containerData)
         {
-            // container.opacityMask.Viewport = new Rect(150, 0, 300, 300);
             editorCanvas.UpdateLayout();
-            container.UpdateLayout();
-            /*double left = containerData.MaskLeft * container.ActualWidth;
-            double top = containerData.MaskTop * container.ActualHeight;
-            double width = containerData.MaskWidth * container.ActualWidth;
-            double height = containerData.MaskHeight * container.ActualHeight;
-
-            double? maskImageWidth = container.Mask?.Width;
-            double? maskImageHeight = container.Mask?.Height;
-
-            if (maskImageWidth != null && maskImageHeight != null && container.ActualWidth > 0 && container.ActualHeight > 0)
-            {
-                double widthCoeficient = (double)maskImageWidth / width;
-                double heightCoeficient = (double)maskImageHeight / height;
-                
-                double viewportWidth = width * widthCoeficient;
-                double viewportHeight = height * heightCoeficient;
-
-
-                double startOffsetX = -container.ActualWidth / 2 + (double)maskImageWidth / 2;
-                double startOffsetY = -container.ActualHeight / 2 + (double)maskImageHeight / 2;
-
-                double endOffsetX = +container.ActualWidth / 2 - (double)maskImageWidth / 2;
-                double endOffsetY = +container.ActualHeight / 2 - (double)maskImageHeight / 2;
-
-                double offsetX = MapToRange(containerData.MaskLeft, startOffsetX, endOffsetX);
-                double offsetY = MapToRange(containerData.MaskTop, startOffsetY, endOffsetY);
-
-                container.opacityMask.Viewport = new Rect(offsetX, offsetY, container.ActualWidth, container.ActualHeight);
-                // container.opacityMask.Viewport = new Rect(containerData.MaskLeft * viewportWidth, containerData.MaskTop * heightCoeficient, viewportWidth, viewportHeight);
-                // container.opacityMask.Viewport = new Rect(0, 0, viewportWidth, viewportHeight);
-                // container.opacityMask.Viewport.Offset(600, containerData.MaskTop * viewportHeight);
-            }*/
-
-            /*double left = containerData.MaskLeft * container.ActualWidth;
-            double top = containerData.MaskTop * container.ActualHeight;
-            double width = containerData.MaskWidth * container.ActualWidth;
-            double height = containerData.MaskHeight * container.ActualHeight;
-
-            double? maskImageWidth = container.Mask?.Width;
-            double? maskImageHeight = container.Mask?.Height;
-
-            if (maskImageWidth != null && maskImageHeight != null && width > 0 && height > 0)
-            {
-                double widthCoeficient = (double)maskImageWidth / width;
-                double heightCoeficient = (double)maskImageHeight / height;
-
-                double viewportWidth = width * widthCoeficient;
-                double viewportHeight = height * heightCoeficient;
-
-
-                double maxXOffset = container.ActualWidth - container.opacityMask.Viewport.Width;
-                double maxYOffset = container.ActualHeight - container.opacityMask.Viewport.Height;
-
-                // Calculate the actual offset based on the percentage (0 to 1 range)
-                double xOffset = maxXOffset * containerData.MaskLeft;
-                double yOffset = maxYOffset * containerData.MaskTop;
-                // double xOffset = maxXOffset * 0;
-                // double yOffset = maxYOffset * 0;
-
-                // container.opacityMask.Viewport = new Rect(xOffset, yOffset, container.ActualWidth, container.ActualHeight);
-                container.opacityMask.Viewport = new Rect(xOffset, yOffset, container.opacityMask.Viewport.Width, container.opacityMask.Viewport.Height);
-                // container.opacityMask.Viewport.Scale(widthCoeficient, heightCoeficient);
-
-                // container.opacityMask.Viewbox.Offset(container.ActualWidth * 0.5, container.ActualHeight * 0.0);
-                // container.opacityMask.Viewport = new (0, 0, viewportWidth, viewportHeight);
-
-                
-            }*/
-
-            
+            // container.UpdateLayout();
 
             if (container.Mask == null)
                 return;
 
+            // double scaleX = container.ActualWidth / container.Mask.PixelWidth;
+            // double scaleY = container.ActualHeight / container.Mask.PixelHeight;
+
+            double scaleX = AppParameters.Instance.EditorParameters.Width / AppParameters.Instance.EditorParameters.DEFAULT_WIDTH;
+            double scaleY = AppParameters.Instance.EditorParameters.Height / AppParameters.Instance.EditorParameters.DEFAULT_HEIGHT;
+
             double maskWidth = container.Mask.PixelWidth;
             double maskHeight = container.Mask.PixelHeight;
 
-            double scaleX = container.ActualWidth / container.Mask.PixelWidth;
-            double scaleY = container.ActualHeight / container.Mask.PixelHeight;
+            // MessageBox.Show(scaleX + " " + scaleY);
 
             container.opacityMask.Viewport = new Rect(0, 0, maskWidth, maskHeight);
 
@@ -177,7 +112,6 @@ namespace WpfTestApp.UserControls.Editor
             double yOffset = maxYOffset * containerData.MaskTop;
 
             container.opacityMask.Viewport = new Rect(xOffset, yOffset, container.opacityMask.Viewport.Width, container.opacityMask.Viewport.Height);
-            container.opacityMask.Viewport.Scale(maskWidth *scaleX , maskHeight * scaleY); 
         }
 
         private double MapToRange(double t, double x, double y)

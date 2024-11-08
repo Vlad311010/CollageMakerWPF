@@ -6,21 +6,20 @@
              xmlns:local="clr-namespace:WpfTestApp.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="DropHandle" Keyboard.KeyDown="imageScroll_KeyDown" Focusable="True">
- 
+
     <Canvas x:Name="mainCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" Background="Transparent" >
         <Canvas.OpacityMask>
             <ImageBrush x:Name="opacityMask"
                         Stretch="Uniform" 
-                        
+                                        
                         Viewbox="0, 0, 1, 1"
                         ViewportUnits="Absolute"
                         ViewboxUnits="RelativeToBoundingBox"
-                        TileMode="None"/>
+                        TileMode="None">
+            </ImageBrush>
         </Canvas.OpacityMask>
-        
-        <Canvas x:Name="imageCanvas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="False">
 
-            
+        <Canvas x:Name="imageCanvas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="False">
             <Image Canvas.Left="0" Canvas.Top="0" Stretch="Uniform" Name="img"
                     MouseMove="imageScroll_MouseMove" 
                     MouseLeftButtonDown="imageScroll_MouseLeftButtonDown" 

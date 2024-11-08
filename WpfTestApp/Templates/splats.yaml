@@ -1,0 +1,39 @@
+﻿name: "splats"
+images: 4
+containers:
+
+# lt
+- mask_source: "splat2\\splat.png"
+  left: 0.0
+  top: 0.0
+  width: 0.5
+  height: 0.5
+  mask_left: 0.5
+  mask_top: 0.5
+
+# lb
+- mask_source: "splat2\\splat.png"
+  left: 0.0
+  top: 0.5
+  width: 0.5
+  height: 0.5
+  mask_left: 0.5
+  mask_top: 0.5
+
+# rt
+- mask_source: "splat2\\splat.png"
+  left: 0.5
+  top: 0.0
+  width: 0.5
+  height: 0.5
+  mask_left: 0.5
+  mask_top: 0.5
+
+# rb
+- mask_source: "splat2\\splat.png"
+  left: 0.5
+  top: 0.5
+  width: 0.5
+  height: 0.5
+  mask_left: 0.5
+  mask_top: 0.5

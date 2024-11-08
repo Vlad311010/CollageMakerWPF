@@ -1,5 +1,5 @@
 ﻿name: "splat"
-images: 3
+images: 4
 containers:
 
 # lt
@@ -10,8 +10,6 @@ containers:
   height: 0.5
   mask_left: 1
   mask_top: 1
-  mask_width: 1
-  mask_height: 1
 
 # lb
 - mask_source: "splat2\\splat_lb.png"
@@ -21,8 +19,6 @@ containers:
   height: 0.5
   mask_left: 1
   mask_top: 0
-  mask_width: 1
-  mask_height: 1
 
 # rt
 - mask_source: "splat2\\splat_rt.png"
@@ -32,8 +28,6 @@ containers:
   height: 0.5
   mask_left: 0
   mask_top: 1
-  mask_width: 1
-  mask_height: 1
 
 # rb
 - mask_source: "splat2\\splat_rb.png"
@@ -43,5 +37,3 @@ containers:
   height: 0.5
   mask_left: 0
   mask_top: 0
-  mask_width: 1
-  mask_height: 1

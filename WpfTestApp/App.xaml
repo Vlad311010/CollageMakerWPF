@@ -4,6 +4,17 @@
              xmlns:local="clr-namespace:WpfTestApp"
              StartupUri="CollageWindow.xaml">
     <Application.Resources>
-         
+
+        <ResourceDictionary>
+            <!-- Merge the external style file -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\Button.xaml" />
+                <ResourceDictionary Source="\Styles\TabControl.xaml" />
+                <ResourceDictionary Source="\Styles\Slider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

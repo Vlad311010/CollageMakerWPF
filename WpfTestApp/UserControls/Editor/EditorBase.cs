@@ -35,7 +35,7 @@ namespace WpfTestApp.UserControls.Editor
         private void OnFocusLost(object sender, RoutedEventArgs e)
         {
             Deselect(false);
-        }
+        }   
 
         protected virtual void OnBackgroundColorChange(Color newColor)
         {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Xml;
 
 namespace WpfTestApp.Utils
@@ -27,12 +28,19 @@ namespace WpfTestApp.Utils
             }
         }
 
-        public static T Increment<T>(this T enumValue) where T : struct, Enum
+        public static bool IsChildOf(DependencyObject? child, DependencyObject parent)
         {
-            T[] values = (T[])Enum.GetValues(typeof(T));
-            int index = Array.IndexOf(values, enumValue);
-            int nextIndex = (index + 1) % values.Length;
-            return values[nextIndex];
+            DependencyObject? current = child;
+
+            while (current != null)
+            {
+                if (current == parent)
+                    return true;
+
+                current = VisualTreeHelper.GetParent(current);
+            }
+
+            return false;
         }
     }
 

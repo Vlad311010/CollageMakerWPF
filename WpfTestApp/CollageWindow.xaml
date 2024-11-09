@@ -13,8 +13,8 @@
         <DockPanel>
             <DockPanel Margin="5" Width="240" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
-                    <Button Click="Button_SaveCollage">
-                        <TextBlock FontWeight="Bold">Save Collage</TextBlock> 
+                    <Button Click="Button_SaveCollage" Style="{StaticResource Large}">
+                        <TextBlock>Save Collage</TextBlock> 
                     </Button>
                 </StackPanel>
                 <Grid Margin="0, 0, 0, 5" >
@@ -53,9 +53,7 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border BorderBrush="YellowGreen" BorderThickness="1" Margin="5" Height="60" Width="60">
-                                                        <Button Content="{Binding Item1}" Tag="{Binding Item2}" Click="OnTemplateClick"/>
-                                                    </Border>
+                                                    <Button Margin="5" Height="60" Width="60" Style="{StaticResource TemplateSelector}" Content="{Binding Item1}" Tag="{Binding Item2}" Click="OnTemplateClick"/>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
@@ -111,7 +109,7 @@
 
                 <uc:AssetsBox ToolbarRef="{Binding ElementName=editorToolbar}" >
                     <uc:AssetsBox.AddBtn>
-                        <Button Padding="18, 0, 18, 0" Content="Add"/>
+                        <Button Style="{StaticResource Large}" FontWeight="Regular"  Padding="18, 0, 18, 0" Content="Add"/>
                     </uc:AssetsBox.AddBtn>
                 </uc:AssetsBox>
 

@@ -28,9 +28,10 @@ namespace WpfTestApp.UserControls
             InitializeComponent();
             Loaded += ImageContainer_Loaded;
             img.RenderTransformOrigin = new Point(0.5, 0.5);
-         
+
             // set default image
-            SetImageSource(new BitmapImage(AppParameters.Instance.EditorParameters.DefaultImageUri));
+            Source = null;
+            // SetImageSource(new BitmapImage(AppParameters.Instance.EditorParameters.DefaultImageUri));
         }
 
         private void ImageContainer_Loaded(object sender, RoutedEventArgs e)
@@ -48,13 +49,7 @@ namespace WpfTestApp.UserControls
             set
             {
                 _imageSource = value;
-                if (_imageSource == null)
-                {
-                    SetImageSource(null!);
-                    return;
-                }
-                
-                Uri fileUri = new Uri(_imageSource!);
+                Uri fileUri = _imageSource == null ? AppParameters.Instance.EditorParameters.DefaultImageUri : new Uri(_imageSource!);
                 _imageBitmap = new BitmapImage(fileUri);
                 SetImageSource(_imageBitmap);
             }
@@ -109,18 +104,7 @@ namespace WpfTestApp.UserControls
                 return;
 
             Source = filePath;
-            /*imageCanvas.Width = outerCanvas.ActualWidth;
-            imageCanvas.Height = outerCanvas.ActualHeight;
-            imageCanvas.UpdateLayout();
-            if (img.Height < img.Width)
-                img.MaxWidth = imageCanvas.ActualWidth;
-            else
-                img.MaxHeight = imageCanvas.ActualHeight;*/
             ResetImageTransform();
-
-            /*Uri fileUri = new Uri("C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png"!);
-            BitmapImage mask = new BitmapImage(fileUri);
-            outerCanvas.OpacityMask = new ImageBrush(mask);*/
         }
 
         private void ResetImageTransform()
@@ -227,6 +211,7 @@ namespace WpfTestApp.UserControls
         private void Clear()
         {
             Source = null;
+            Fill();
         }
 
         private void ResizeImg(double scale)

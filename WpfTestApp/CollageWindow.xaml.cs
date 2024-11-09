@@ -1,23 +1,13 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 using WpfTestApp.DataStructs;
-using WpfTestApp.UserControls;
 using WpfTestApp.UserControls.Editor;
 using WpfTestApp.Utils;
+using YamlDotNet.Core;
 
 namespace WpfTestApp
 {
@@ -94,15 +84,30 @@ namespace WpfTestApp
         {
             string[] templateFiles = Directory.GetFiles(AppParameters.TEMPLATES_FOLDER);
 
-            _templates = new CollageTemplate[templateFiles.Length];
+            List<CollageTemplate> templates = new List<CollageTemplate>();
+            List<string> invalidTemplates = new List<string>();
             for (int i = 0; i < templateFiles.Length; i++)
-                _templates[i] = CollageTemplate.ReadFromYaml(templateFiles[i]);
-
+            {
+                try
+                {
+                    CollageTemplate template = CollageTemplate.ReadFromYaml(templateFiles[i]);
+                    templates.Add(template);
+                }
+                catch (YamlException e)
+                {
+                    invalidTemplates.Add(templateFiles[i]);
+                }
+            }
+            
+            _templates = templates.ToArray();
             List<Tuple<string, int>> templatesWithActions = _templates
                 .Select((template, idx) => new Tuple<string, int>(template.Name, idx))
                 .ToList();
 
             icTemplatesGrid.ItemsSource = templatesWithActions;
+
+            if (invalidTemplates.Count > 0)
+                MessageBox.Show("Some of the templates are misformatted:\n" + string.Join(", ", invalidTemplates.Select(path => Path.GetFileName(path))));
         }
 
 

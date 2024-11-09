@@ -27,8 +27,14 @@ namespace WpfTestApp.UserControls
             // TODO: unsubscribe event on destroy?
             InitializeComponent();
             lbImages.SelectionChanged += LbImages_SelectionChanged;
-            // lbImages.LostFocus += LbImages_LostFocus;
             lbImages.GotFocus += LbImages_GotFocus;
+            Unloaded += AssetsBox_Unloaded;
+        }
+
+        private void AssetsBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            lbImages.SelectionChanged -= LbImages_SelectionChanged;
+            lbImages.GotFocus -= LbImages_GotFocus;
         }
 
         private void LbImages_GotFocus(object sender, RoutedEventArgs e)

@@ -22,6 +22,7 @@ namespace WpfTestApp
             tbCollageHeightInput.Text = AppParameters.Instance.EditorParameters.Height.ToString();
 
             // TODO: refact?
+            // initialize editors
             _editorCanvas = new EditorCanvas();
             _editorCanvas.ToolbarRef = editorToolbar;
             _editorCanvas.Background = new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor);
@@ -31,7 +32,12 @@ namespace WpfTestApp
             _editorGrid.Background = new SolidColorBrush(AppParameters.Instance.EditorParameters.BackgroundColor);
             
             SwitchEditor(_editorGrid);
+            SwitchEditor(_editorCanvas);
+
+            ChangeCollageTemplate(_templates[0]);
         }
+
+        
 
         private CollageTemplate[] _templates;
         private EditorCanvas _editorCanvas;

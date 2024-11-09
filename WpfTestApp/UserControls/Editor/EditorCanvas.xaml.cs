@@ -29,10 +29,18 @@ namespace WpfTestApp.UserControls.Editor
             _editorPanel = editorCanvas;
             AppParameters.Instance.EditorParameters.OnTemplateChange += OnTemplateChange;
             Loaded += OnEditorLoad;
+            Unloaded += OnEditorUnload;
         }
 
         private ImageContainer[]? _containers;
-        
+
+
+        protected override void OnEditorUnload(object sender, RoutedEventArgs e)
+        {
+            base.OnEditorUnload(sender, e);
+            AppParameters.Instance.EditorParameters.OnTemplateChange -= OnTemplateChange;
+        }
+
         protected override void UpdateEditor()
         {
             _editorPanel.Children.Clear();

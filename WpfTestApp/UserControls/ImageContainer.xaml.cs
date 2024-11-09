@@ -40,6 +40,7 @@ namespace WpfTestApp.UserControls
                 mainCanvas.OpacityMask = null;
         }
 
+
         public string? Source
         {
             get

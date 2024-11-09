@@ -32,6 +32,13 @@ namespace WpfTestApp.UserControls.Editor
             Resize(AppParameters.Instance.EditorParameters.Width, AppParameters.Instance.EditorParameters.Height);
         }
 
+        protected virtual void OnEditorUnload(object sender, RoutedEventArgs e)
+        {
+            _editorPanel.LostFocus -= OnFocusLost;
+            AppParameters.Instance.EditorParameters.OnBackgroundColorChange -= OnBackgroundColorChange;
+        }
+
+
         private void OnFocusLost(object sender, RoutedEventArgs e)
         {
             Deselect(false);

@@ -30,6 +30,7 @@ namespace WpfTestApp.UserControls.Editor
             InitializeComponent();
             _editorPanel = editorGrid;
             Loaded += OnEditorLoad;
+            Unloaded += OnEditorUnload;
         }
 
 
@@ -160,7 +161,6 @@ namespace WpfTestApp.UserControls.Editor
         {
             ImageContainer imgContainer = new ImageContainer();
             imgContainer.PreviewMouseLeftButtonDown += OnEditorElementLeftClick;
-            // imgContainer.MaskSource = "C:\\Users\\Vlad\\Desktop\\MASKS\\11441885.png";
             imgContainer.AllowDrop = true;
             imgContainer.Padding = new Thickness(_borderSize);
             return imgContainer;

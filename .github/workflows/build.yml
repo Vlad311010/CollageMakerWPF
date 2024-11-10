@@ -27,9 +27,9 @@ jobs:
     - name: Publish
       run: dotnet publish ./WpfTestApp/WpfTestApp.csproj -c Release -o ./publish
     - name: Create ZIP Archive
-      run: Compress-Archive -Path ./publish/* -DestinationPath ./output/build.zip      
+      run: Compress-Archive -Path ./publish/* -DestinationPath ./publish/build.zip      
     - name: Upload ZIP as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: build-output
-        path: ./output/build.zip
+        path: ./publish/build.zip

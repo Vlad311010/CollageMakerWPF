@@ -24,10 +24,12 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build -c Release
+    - name: Publish
+      run: dotnet publish ./WpfTestApp/WpfTestApp.csproj -c Release -o ./publish
     - name: Create ZIP Archive
-      run: Compress-Archive -Path "D:/a/CollageMakerWPF/CollageMakerWPF/WpfTestApp/Release/net8.0-windows/publish/*" -DestinationPath ./build.zip
+      run: Compress-Archive -Path ./publish/* -DestinationPath ./output/build.zip      
     - name: Upload ZIP as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: build-output
-        path: ./build.zip
+        path: ./output/build.zip

@@ -25,9 +25,9 @@ jobs:
     - name: Build
       run: dotnet build -c Release
     - name: Create ZIP Archive
-      run: Compress-Archive -Path "D:/a/CollageMakerWPF/CollageMakerWPF/WpfTestApp/Release/net8.0-windows/publish/*" -DestinationPath ./output/build.zip
+      run: Compress-Archive -Path "D:/a/CollageMakerWPF/CollageMakerWPF/WpfTestApp/Release/net8.0-windows/publish/*" -DestinationPath ./build.zip
     - name: Upload ZIP as Artifact
       uses: actions/upload-artifact@v3
       with:
         name: build-output
-        path: ./output/build.zip
+        path: ./build.zip

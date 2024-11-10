@@ -15,19 +15,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build -c Release
-    - name: Create ZIP Archive
-      run: Compress-Archive -Path "path/to/YourProject/bin/Release/net8.0/publish/*" -DestinationPath ./output/build.zip
-    - name: Upload ZIP as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: build-output
-        path: ./output/build.zip
+      - uses: actions/checkout@master
+      - name: Generate ZIP
+        uses: byteever/action-build-zip@master
+        with:
+          filename: 'release.zip'

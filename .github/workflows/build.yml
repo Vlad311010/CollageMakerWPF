@@ -23,9 +23,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build -c Release -o ./publish
+      run: dotnet build -c Release
     - name: Create ZIP Archive
-      run: Compress-Archive -Path ./publish/* -DestinationPath ./output/build.zip
+      run: Compress-Archive -Path "path/to/YourProject/bin/Release/net8.0/publish/*" -DestinationPath ./output/build.zip
     - name: Upload ZIP as Artifact
       uses: actions/upload-artifact@v3
       with:

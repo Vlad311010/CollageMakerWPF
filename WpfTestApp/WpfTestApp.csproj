@@ -20,11 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Masks\splat2\splat.png" />
-    <None Remove="Masks\splat2\splat_lb.png" />
-    <None Remove="Masks\splat2\splat_lt.png" />
-    <None Remove="Masks\splat2\splat_rb.png" />
-    <None Remove="Masks\splat2\splat_rt.png" />
+    <None Remove="Masks\splat\splat.png" />
     <None Remove="Masks\splat\splat_lb.png" />
     <None Remove="Masks\splat\splat_lt.png" />
     <None Remove="Masks\splat\splat_rb.png" />

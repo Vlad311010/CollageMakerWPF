@@ -22,8 +22,8 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Publish
-      run: dotnet publish -c Release -o ./publish
+    - name: Build
+      run: dotnet build -c Release -o ./publish
     - name: Create ZIP Archive
       run: Compress-Archive -Path ./publish/* -DestinationPath ./output/build.zip
     - name: Upload ZIP as Artifact

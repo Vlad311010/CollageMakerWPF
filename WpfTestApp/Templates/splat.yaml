@@ -3,7 +3,7 @@ images: 4
 containers:
 
 # lt
-- mask_source: "splat2\\splat_lt.png"
+- mask_source: "splat\\splat_lt.png"
   left: 0.0
   top: 0.0
   width: 0.5
@@ -12,7 +12,7 @@ containers:
   mask_top: 1
 
 # lb
-- mask_source: "splat2\\splat_lb.png"
+- mask_source: "splat\\splat_lb.png"
   left: 0.0
   top: 0.5
   width: 0.5
@@ -21,7 +21,7 @@ containers:
   mask_top: 0
 
 # rt
-- mask_source: "splat2\\splat_rt.png"
+- mask_source: "splat\\splat_rt.png"
   left: 0.5
   top: 0.0
   width: 0.5
@@ -30,7 +30,7 @@ containers:
   mask_top: 1
 
 # rb
-- mask_source: "splat2\\splat_rb.png"
+- mask_source: "splat\\splat_rb.png"
   left: 0.5
   top: 0.5
   width: 0.5

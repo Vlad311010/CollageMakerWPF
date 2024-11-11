@@ -29,9 +29,7 @@ namespace WpfTestApp.UserControls
             Loaded += ImageContainer_Loaded;
             img.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            // set default image
             Source = null;
-            // SetImageSource(new BitmapImage(AppParameters.Instance.EditorParameters.DefaultImageUri));
         }
 
         private void ImageContainer_Loaded(object sender, RoutedEventArgs e)
@@ -97,6 +95,9 @@ namespace WpfTestApp.UserControls
         private double _imgScale = 1;
         private float _imgAngle = 0;
         private Slider _scaleSlider;
+        
+        private double _minScale = 0.1d;
+        private double _maxScale = 8d;
 
         private void DropHandle(object sender, DragEventArgs e)
         {
@@ -222,6 +223,12 @@ namespace WpfTestApp.UserControls
             imageScaleTransform.ScaleX = scale;
             imageScaleTransform.ScaleY = scale;
         }
+        
+        private void ResizeImgNormalized(double normalizedScale)
+        {
+            double scale = Extensions.MapFromNormalRange(_minScale, _maxScale, normalizedScale);
+            ResizeImg(scale);
+        }
 
         private void SetImageSource(BitmapSource bitmap)
         {
@@ -235,7 +242,9 @@ namespace WpfTestApp.UserControls
             toolbar.AddBtn("Rotate", Rotate);
             toolbar.AddBtn("Flip H", FlipHorizontal);
             toolbar.AddBtn("Flip V", FlipVertical);
-            toolbar.AddSlider(0.1d, 8d, _imgScale, "Zoom:", (oldValue, newValue) => ResizeImg(newValue));
+            
+            double sliderDefaultValue = Extensions.NormalizeRange(_minScale, _maxScale, _imgScale);
+            toolbar.AddSlider(0, 1, sliderDefaultValue, "Zoom:", (oldValue, newValue) => ResizeImgNormalized(newValue));
             toolbar.AddBtn("Clear", Clear);
         }
     }

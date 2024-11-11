@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:WpfTestApp.Utils.Converters">
+
+    
     <!--Control colors.-->
     <Color x:Key="WindowColor">#FFE8EDF9</Color>
     <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
@@ -40,48 +43,40 @@
     <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
     <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
     <Color x:Key="SliderTracLightkColor">#FFFFFF</Color>
-    <Color x:Key="SliderTrackDarkColor">#FFFFFF</Color>
+    <Color x:Key="SliderTrackDarkColor">#FF0000</Color>
+
+    <Color x:Key="SliderFilledColor">#FA812F</Color>
+    <Color x:Key="SliderEmptyColor">#FFFFFF</Color>
 
     <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
 
-    <LinearGradientBrush x:Key="MenuPopupBrush"
-                     EndPoint="0.5,1"
-                     StartPoint="0.5,0">
-        <GradientStop Color="{DynamicResource ControlLightColor}"
-                Offset="0" />
-        <GradientStop Color="{DynamicResource ControlMediumColor}"
-                Offset="0.5" />
-        <GradientStop Color="{DynamicResource ControlLightColor}"
-                Offset="1" />
+    
+
+
+
+    <LinearGradientBrush x:Key="MenuPopupBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="{DynamicResource ControlLightColor}" Offset="0" />
+        <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="0.5" />
+        <GradientStop Color="{DynamicResource ControlLightColor}" Offset="1" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
-                     StartPoint="0,0"
-                     EndPoint="1,0">
+    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
         <LinearGradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#000000FF"
-                    Offset="0" />
-                <GradientStop Color="#600000FF"
-                    Offset="0.4" />
-                <GradientStop Color="#600000FF"
-                    Offset="0.6" />
-                <GradientStop Color="#000000FF"
-                    Offset="1" />
+                <GradientStop Color="#000000FF" Offset="0" />
+                <GradientStop Color="#600000FF" Offset="0.4" />
+                <GradientStop Color="#600000FF" Offset="0.6" />
+                <GradientStop Color="#000000FF" Offset="1" />
             </GradientStopCollection>
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
 
     <Style x:Key="SliderButtonStyle"
        TargetType="{x:Type RepeatButton}">
-        <Setter Property="SnapsToDevicePixels"
-          Value="true" />
-        <Setter Property="OverridesDefaultStyle"
-          Value="true" />
-        <Setter Property="IsTabStop"
-          Value="false" />
-        <Setter Property="Focusable"
-          Value="false" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -91,16 +86,13 @@
         </Setter>
     </Style>
 
+
     <Style x:Key="SliderThumbStyle"
        TargetType="{x:Type Thumb}">
-        <Setter Property="SnapsToDevicePixels"
-          Value="true" />
-        <Setter Property="OverridesDefaultStyle"
-          Value="true" />
-        <Setter Property="Height"
-          Value="14" />
-        <Setter Property="Width"
-          Value="14" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Width" Value="14" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -144,11 +136,8 @@
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
-                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                Storyboard.TargetName="Ellipse">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource DisabledControlDarkColor}" />
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="Ellipse">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlDarkColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -180,11 +169,12 @@
                 </TickBar.Fill>
             </TickBar>
             <Border x:Name="TrackBackground"
-            Margin="0"
-            CornerRadius="2"
-            Height="4"
-            Grid.Row="1"
-            BorderThickness="1">
+                    Margin="0"
+                    CornerRadius="2"
+                    Height="4"
+                    Grid.Row="1"
+                    BorderThickness="1"
+            >
                 <Border.BorderBrush>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                         <LinearGradientBrush.GradientStops>
@@ -196,11 +186,13 @@
                     </LinearGradientBrush>
                 </Border.BorderBrush>
                 <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <LinearGradientBrush.GradientStops>
                             <GradientStopCollection>
-                                <GradientStop Color="{DynamicResource SliderTrackLightColor}" Offset="0.0" />
-                                <GradientStop Color="{DynamicResource SliderTrackDarkColor}" Offset="1.0" />
+                                <GradientStop Color="{DynamicResource SliderFilledColor}" Offset="0.0" />
+                                <GradientStop Color="{DynamicResource SliderFilledColor}" Offset="{Binding ElementName=PART_Track, Path=Value}" />
+                                <GradientStop Color="{DynamicResource SliderEmptyColor}" Offset="{Binding ElementName=PART_Track, Path=Value}" />
+                                <GradientStop Color="{DynamicResource SliderEmptyColor}" Offset="1" />
                             </GradientStopCollection>
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>

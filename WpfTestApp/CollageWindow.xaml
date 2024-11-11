@@ -7,6 +7,7 @@
         xmlns:editor="clr-namespace:WpfTestApp.UserControls.Editor"
         xmlns:local="clr-namespace:WpfTestApp"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:converters="clr-namespace:WpfTestApp.Utils.Converters"
         mc:Ignorable="d"
         Title="CollageWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
     <Grid>
@@ -118,19 +119,15 @@
                         <Button Padding="7, 0, 7, 0"  Margin="3, 0, 3, 0">2</Button>
                     </uc:EditorToolbar.BtnTemplate>
                     <uc:EditorToolbar.SliderTemplate>
-                        <Slider Width="200" VerticalAlignment="Center"/>
+                        <Slider Width="200" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="2"/>
                     </uc:EditorToolbar.SliderTemplate>
-                </uc:EditorToolbar>
+                </uc:EditorToolbar> 
 
 
                 <Grid Name="canvasEditor" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5, 0, 5, 5" >
                     <Viewbox Name="vbEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True">
                         <!-- 
-                        Width="1278" Height="640"
-                        <Border BorderBrush="LightGray" BorderThickness="1">
-                        </Border>
-                        <editor:EditorGrid x:Name="editor" Background="White" Rows="2" Columns="2" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1000" Height="1000"/>
-                        <editor:EditorCanvas x:Name="editor" Background="White" ToolbarRef="{Binding ElementName=editorToolbar}" Width="1278" Height="640"/>
+                        Place editor on window load
                         -->
                     </Viewbox>
                 </Grid>

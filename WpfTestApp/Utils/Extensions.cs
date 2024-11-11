@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
+using YamlDotNet.Core.Tokens;
 
 namespace WpfTestApp.Utils
 {
@@ -28,20 +29,33 @@ namespace WpfTestApp.Utils
             }
         }
 
-        public static bool IsChildOf(DependencyObject? child, DependencyObject parent)
+        // def normalize(value, old_min=0.1, old_max= 8, new_min= 0, new_max= 1):
+        // return ((value - old_min) / (old_max - old_min)) * (new_max - new_min) + new_min
+
+        /// <summary>
+        /// maps value from (min, max) range into (0-1) range
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static double NormalizeRange(double min, double max, double value)
         {
-            DependencyObject? current = child;
-
-            while (current != null)
-            {
-                if (current == parent)
-                    return true;
-
-                current = VisualTreeHelper.GetParent(current);
-            }
-
-            return false;
+            return ((value - min) / (max - min)) * 1 + min; 
         }
-    }
 
+
+        /// <summary>
+        /// maps value from (0, 1) range into (min-max) range
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static double MapFromNormalRange(double min, double max, double value)
+        {
+            return value * (max - min) + min;
+        }
+
+    }
 }

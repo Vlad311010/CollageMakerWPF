@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:WpfTestApp"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:converters="clr-namespace:WpfTestApp.Utils.Converters"
+        xmlns:controls="clr-namespace:WpfTestApp.Controls"
         mc:Ignorable="d"
         Title="CollageWindow" WindowState="Maximized" d:DesignHeight="440" d:DesignWidth="860">
     <Grid>

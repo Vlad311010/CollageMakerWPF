@@ -6,13 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfTestApp.Interfaces;
 using WpfTestApp.Utils;
 
@@ -66,7 +62,6 @@ namespace WpfTestApp.UserControls
                 if (opacityMask == null || _maskSource == null)
                     return;
 
-                // Uri fileUri = new Uri(_maskSource!);
                 Uri fileUri = new Uri($"pack://application:,,,/Masks/{_maskSource!}");
                 try
                 {
@@ -96,8 +91,8 @@ namespace WpfTestApp.UserControls
         private float _imgAngle = 0;
         private Slider _scaleSlider;
         
-        private double _minScale = 0.1d;
-        private double _maxScale = 8d;
+        private const double _minScale = 0.1d;
+        private const double _maxScale = 8d;
 
         private void DropHandle(object sender, DragEventArgs e)
         {
@@ -224,12 +219,6 @@ namespace WpfTestApp.UserControls
             imageScaleTransform.ScaleY = scale;
         }
         
-        private void ResizeImgNormalized(double normalizedScale)
-        {
-            double scale = Extensions.MapFromNormalRange(_minScale, _maxScale, normalizedScale);
-            ResizeImg(scale);
-        }
-
         private void SetImageSource(BitmapSource bitmap)
         {
             img.Source = bitmap;
@@ -242,9 +231,7 @@ namespace WpfTestApp.UserControls
             toolbar.AddBtn("Rotate", Rotate);
             toolbar.AddBtn("Flip H", FlipHorizontal);
             toolbar.AddBtn("Flip V", FlipVertical);
-            
-            double sliderDefaultValue = Extensions.NormalizeRange(_minScale, _maxScale, _imgScale);
-            toolbar.AddSlider(0, 1, sliderDefaultValue, "Zoom:", (oldValue, newValue) => ResizeImgNormalized(newValue));
+            toolbar.AddSlider(_minScale, _maxScale, _imgScale, "Zoom:", (oldValue, newValue) => ResizeImg(newValue));
             toolbar.AddBtn("Clear", Clear);
         }
     }

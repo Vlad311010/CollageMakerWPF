@@ -37,14 +37,11 @@ namespace WpfTestApp
             ChangeCollageTemplate(_templates[0]);
         }
 
-        
-
         private CollageTemplate[] _templates;
         private EditorCanvas _editorCanvas;
         private EditorGrid _editorGrid;
         private EditorBase _activeEditor;
         private const int MAX_GRID_CELLS = 100;
-
 
         private void Button_ResizeCollage(object sender, RoutedEventArgs e)
         {
@@ -77,13 +74,13 @@ namespace WpfTestApp
             int rows = 0;
             bool isColumnsParsed = int.TryParse(tbCollageGridColumns.Text, out columns);
             bool isRowsParsed = int.TryParse(tbCollageGridRows.Text, out rows);
-            if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1 && columns * rows <= MAX_GRID_CELLS) // check if column and row >= 1
+            if (isColumnsParsed && isRowsParsed && columns > 0 && columns * rows >= 1 && columns * rows <= MAX_GRID_CELLS) // check if column and row >= 1. TODO:Move to grid class
             {
                 SwitchEditor(_editorGrid);
-                _activeEditor.ResizeGrid(columns, rows);
+                AppParameters.Instance.EditorParameters.ResizeGrid(columns, rows);
             }
             else
-                MessageBox.Show($"Invalid parametes. Grid must have atleast one coulumn and row and contain less the {MAX_GRID_CELLS} cells");
+                MessageBox.Show($"Invalid parametes. Grid must have atleast one column and row and contain less the {MAX_GRID_CELLS} cells");
         }
 
         private void LoadTemplates()
@@ -129,13 +126,13 @@ namespace WpfTestApp
             if (tagValue == null)
                 return;
 
-            SwitchEditor(_editorCanvas);
             int templateIdx = int.Parse(tagValue.ToString()!);
             ChangeCollageTemplate(_templates[templateIdx]);
         }
 
         private void ChangeCollageTemplate(CollageTemplate template)
         {
+            SwitchEditor(_editorCanvas);
             AppParameters.Instance.EditorParameters.SelectedTemplate = template;
         }
 

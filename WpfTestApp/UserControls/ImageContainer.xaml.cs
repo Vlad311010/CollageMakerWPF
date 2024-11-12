@@ -158,23 +158,6 @@ namespace WpfTestApp.UserControls
 
         #endregion
 
-        // test
-        private void imageScroll_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Q)
-            {
-                ResizeImg(1);
-            }
-            else if (e.Key == Key.R)
-            {
-                ResizeImg(2);
-            }
-            else if (e.Key == Key.E)
-            {
-                Fill();
-            }
-        }
-
         private void Rotate()
         {
             imageRotateTransform.Angle = _imgAngle;

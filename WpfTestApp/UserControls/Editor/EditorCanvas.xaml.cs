@@ -27,12 +27,18 @@ namespace WpfTestApp.UserControls.Editor
         {
             InitializeComponent();
             _editorPanel = editorCanvas;
-            AppParameters.Instance.EditorParameters.OnTemplateChange += OnTemplateChange;
             Loaded += OnEditorLoad;
             Unloaded += OnEditorUnload;
         }
 
         private ImageContainer[]? _containers;
+
+
+        protected override void OnEditorLoad(object sender, RoutedEventArgs e)
+        {
+            base.OnEditorLoad(sender, e);
+            AppParameters.Instance.EditorParameters.OnTemplateChange += OnTemplateChange;
+        }
 
 
         protected override void OnEditorUnload(object sender, RoutedEventArgs e)
@@ -56,21 +62,17 @@ namespace WpfTestApp.UserControls.Editor
             _containers = new ImageContainer[AppParameters.Instance.EditorParameters.SelectedTemplate.Containers.Length];
             for (int i = 0; i < AppParameters.Instance.EditorParameters.SelectedTemplate.Containers.Length; i++)
             {
-                ImageContainer imgContainer = CreateGridElement(AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
+                ImageContainer imgContainer = CreateImageContainer(AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
                 _editorPanel.Children.Add(imgContainer);
                 _containers[i] = imgContainer;
 
                 SetContrainerTransform(imgContainer, AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
                 SetContainerMaskVieport(imgContainer, AppParameters.Instance.EditorParameters.SelectedTemplate.Containers[i]);
             }
-
-            // foreach (ImageContainer imgContainer in _containers)
-                // imgContainer.Fill();
-            
         }
 
 
-        protected override ImageContainer CreateGridElement(ContainerData containerData)
+        protected override ImageContainer CreateImageContainer(ContainerData containerData)
         {
             ImageContainer imgContainer = new ImageContainer();
             imgContainer.PreviewMouseLeftButtonDown += OnEditorElementLeftClick;
@@ -78,8 +80,6 @@ namespace WpfTestApp.UserControls.Editor
             imgContainer.AllowDrop = true;
             imgContainer.Padding = new Thickness(_borderSize);
 
-            // SetContrainerTransform(imgContainer, containerData);
-            // SetContainerMaskVieport(imgContainer, containerData);
             return imgContainer;
         }
 
@@ -95,7 +95,6 @@ namespace WpfTestApp.UserControls.Editor
         private void SetContainerMaskVieport(ImageContainer container, ContainerData containerData)
         {
             editorCanvas.UpdateLayout();
-            // container.UpdateLayout();
 
             if (container.Mask == null)
                 return;
@@ -108,8 +107,6 @@ namespace WpfTestApp.UserControls.Editor
 
             double maskWidth = container.Mask.PixelWidth;
             double maskHeight = container.Mask.PixelHeight;
-
-            // MessageBox.Show(scaleX + " " + scaleY);
 
             container.opacityMask.Viewport = new Rect(0, 0, maskWidth, maskHeight);
 
@@ -143,10 +140,6 @@ namespace WpfTestApp.UserControls.Editor
 
             foreach (ImageContainer imgContainer in _containers)
                 imgContainer.Fill();
-        }
-
-        public override void ResizeGrid(int columns, int rows)
-        {
         }
 
         private void OnTemplateChange(CollageTemplate? template)

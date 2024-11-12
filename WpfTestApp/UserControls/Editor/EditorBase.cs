@@ -20,7 +20,7 @@ namespace WpfTestApp.UserControls.Editor
             set => SetValue(ToolbarReferenceProperty, value);
         }
 
-        protected void OnEditorLoad(object sender, RoutedEventArgs e)
+        protected virtual void OnEditorLoad(object sender, RoutedEventArgs e)
         {
             AppParameters.Instance.EditorParameters.OnEditorResize += Resize;
             this.Background.Opacity = 0;
@@ -52,15 +52,13 @@ namespace WpfTestApp.UserControls.Editor
 
         protected abstract void UpdateEditor();
 
-        protected abstract ImageContainer CreateGridElement(ContainerData containerData);
+        protected abstract ImageContainer CreateImageContainer(ContainerData containerData);
 
         protected virtual void Resize(int width, int height)
         {
             this.Width = AppParameters.Instance.EditorParameters.Width;
             this.Height = AppParameters.Instance.EditorParameters.Height;
         }
-
-        public abstract void ResizeGrid(int columns, int rows);
 
         protected void OnEditorElementLeftClick(object sender, MouseButtonEventArgs e)
         {

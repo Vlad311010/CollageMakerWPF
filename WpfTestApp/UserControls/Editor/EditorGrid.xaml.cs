@@ -11,12 +11,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml.Linq;
 using WpfTestApp.DataStructs;
-using static System.Net.WebRequestMethods;
+using WpfTestApp.Utils;
 
 namespace WpfTestApp.UserControls.Editor
 {
@@ -31,12 +28,11 @@ namespace WpfTestApp.UserControls.Editor
             _editorPanel = editorGrid;
             Loaded += OnEditorLoad;
             Unloaded += OnEditorUnload;
+            AppParameters.Instance.EditorParameters.OnEditorGridResize += ResizeGrid;
         }
-
 
         private ImageContainer[,] _containers;
         private Border _selectedContainerBorder;
-        private bool _newGridSize = true;
         
         private double _splitterSize = 5;
 
@@ -119,7 +115,7 @@ namespace WpfTestApp.UserControls.Editor
                     if (!TryGetContainer(previousContainers, x, y, out imgContainer)) 
                     {
                         // create and set grid position for ImageContainer
-                        imgContainer = CreateGridElement(new ContainerData());
+                        imgContainer = CreateImageContainer(new ContainerData());
                         Grid.SetRow(imgContainer, y * 2);
                         Grid.SetColumn(imgContainer, x * 2);
                     }
@@ -128,18 +124,14 @@ namespace WpfTestApp.UserControls.Editor
                     _containers[x, y] = imgContainer;
                 }
             }
-
-            if (_newGridSize)
+            
+            
+            UpdateLayout();
+            for (int y = 0; y < Rows; y++)
             {
-                _newGridSize = false;
-                UpdateLayout();
-                // resize and center images
-                for (int y = 0; y < Rows; y++)
+                for (int x = 0; x < Columns; x++)
                 {
-                    for (int x = 0; x < Columns; x++)
-                    {
-                        _containers[x, y].Fill();
-                    }
+                    _containers[x, y].Fill();
                 }
             }
         }
@@ -157,7 +149,7 @@ namespace WpfTestApp.UserControls.Editor
         }
 
         
-        protected override ImageContainer CreateGridElement(ContainerData containerData)
+        protected override ImageContainer CreateImageContainer(ContainerData containerData)
         {
             ImageContainer imgContainer = new ImageContainer();
             imgContainer.PreviewMouseLeftButtonDown += OnEditorElementLeftClick;
@@ -191,11 +183,10 @@ namespace WpfTestApp.UserControls.Editor
             HighlightSplitter(containerCol, containerRow);
         }*/
 
-        public override void ResizeGrid(int columns, int rows)
+        private void ResizeGrid(int columns, int rows)
         {
             _columns = columns;
             _rows = rows;
-            _newGridSize = true;
             UpdateEditor();
         }
 

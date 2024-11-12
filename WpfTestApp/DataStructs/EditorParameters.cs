@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace WpfTestApp.DataStructs
 {
@@ -7,6 +6,9 @@ namespace WpfTestApp.DataStructs
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public (int Columns, int Rows) GridSize => (_gridColumns, _gridRows);
+
+
         public double AspectRatio => Width / Height;
         public double BorderThickness { get; set; }
         public Color BackgroundColor
@@ -24,11 +26,14 @@ namespace WpfTestApp.DataStructs
         public readonly double DEFAULT_HEIGHT = 1000;
 
         public event Action<int, int> OnEditorResize;
+        public event Action<int, int> OnEditorGridResize;
         public event Action<CollageTemplate?> OnTemplateChange;
         public event Action<Color> OnBackgroundColorChange;
 
         private CollageTemplate? _selectedTemplate;
         private Color _backgroundColor = Colors.White;
+        private int _gridColumns;
+        private int _gridRows;
 
         public EditorParameters()
         {
@@ -45,6 +50,14 @@ namespace WpfTestApp.DataStructs
             Height = height;
             if (OnEditorResize != null)
                 OnEditorResize(width, height);
+        }
+
+        public void ResizeGrid(int columns, int rows)
+        {
+            _gridColumns = columns;
+            _gridRows = rows;
+            if (OnEditorGridResize != null)
+                OnEditorGridResize(columns, rows);
         }
 
     }
